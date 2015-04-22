@@ -1,3 +1,10 @@
+# files in folder
+objects/*
+build/*
+
+# QtCreator
+*.txt.user
+
 # Compiled Object files
 *.slo
 *.lo
