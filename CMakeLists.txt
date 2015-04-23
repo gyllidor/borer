@@ -8,6 +8,10 @@ INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/include/
 ) # INCLUDE_DIRECTORIES
 #
+if (${VERBOSE_LOGGER})
+add_definitions(-DVERBOSE_LOGGER)
+endif (${VERBOSE_LOGGER})
+#
 set(OBJECTS_DIR ${CMAKE_SOURCE_DIR}/objects/)
 set(BINARY_DIR  ${CMAKE_SOURCE_DIR}/objects/bin)
 set(LIBRARY_DIR ${CMAKE_SOURCE_DIR}/objects/lib)
