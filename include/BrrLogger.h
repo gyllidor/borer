@@ -9,10 +9,10 @@
 #define BRR_LOGGER_H
 
 // system
-#include <errno.h>
-#include <string.h>
 #include <string>
 #include <cstdio>
+#include <cstdlib>
+#include <string.h>
 
 namespace brr
 {
@@ -23,21 +23,13 @@ namespace brr
 //! @param  [in] error number (errno for example);
 //! @return description of system error;
 //! ************************************************************************************************
-std::string ErrnoDescription( int error )
-{
-    const size_t c_bufferLen = 256;
-    char buffer[ c_bufferLen ] = { 0 };
-    return strerror_r(error, buffer, c_bufferLen);
-}
+std::string StrErrno( int error );
 
 //! ************************************************************************************************
 //! @brief  Get description of system error, stored in errno;
 //! @return description of errno;
 //! ************************************************************************************************
-std::string ErrnoDescription()
-{
-    return ErrnoDescription( errno );
-}
+std::string StrErrno();
 
 } // namespace brr
 
@@ -91,5 +83,30 @@ std::string ErrnoDescription()
 #define BRR_LOGV(format, arg...)
 
 #endif // DEBUG_BUILD
+
+//! ************************************************************************************************
+//! @brief check EXPRESSION and print message success or failed;
+//! ************************************************************************************************
+#define BRR_ASSERT(EXPRESSION) \
+do { \
+    if (EXPRESSION) \
+        BRR_LOGI("success "#EXPRESSION); \
+    else \
+        BRR_LOGE("failed "#EXPRESSION); \
+} while(0);
+
+//! ************************************************************************************************
+//! @brief check EXPRESSION and print message success or failed. If failed then exit from app;
+//! ************************************************************************************************
+#define BRR_ASSERT_EXIT(EXPRESSION) \
+do { \
+    if (EXPRESSION) \
+        BRR_LOGI("success "#EXPRESSION); \
+    else \
+    { \
+        BRR_LOGE("failed "#EXPRESSION); \
+        exit(1); \
+    } \
+} while(0);
 
 #endif // BRR_LOGGER_H

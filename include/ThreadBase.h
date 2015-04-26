@@ -25,17 +25,18 @@ class ThreadBase : public BrrBase
 public: // methods
     ThreadBase();
     ThreadBase(const std::string& threadName);
-    bool Run();
-    bool IsRunning();
-    bool Join();
-    bool Join(void** pResult);
-    bool NotifyToStop();
-    bool Cancel();
+    virtual ~ThreadBase();
+    virtual bool Run();
+    virtual bool IsRunning();
+    virtual bool Join();
+    virtual bool Join(void** pResult);
+    virtual bool NotifyToStop();
+    virtual bool Cancel();
 
 protected: // methods
     virtual void* ThreadMethod() = 0;
-    bool SetCancelState(int type);
-    bool CancelationPoint();
+    virtual bool SetCancelState(int type);
+    virtual bool CancelationPoint();
 
 private: // methods
     static void* ThreadFunction(void* pContext);

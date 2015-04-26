@@ -5,14 +5,16 @@
 //! @date   24 Apr 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
-#include "ThreadBase.h"
 #include "BrrLogger.h"
-#include "BrrTypes.h"
+#include "BrrTestBase.h"
 
 int main()
 {
-    int32 test = 4;
-    BRR_LOGI( "test info %d", test );
+    brrut::BrrTestBase tests;
+    tests.Run();
+
+    BRR_ASSERT_EXIT(1==0);
+    BRR_LOGI( "test info" );
     BRR_LOGW( "test warn" );
     BRR_LOGE( "test erro" );
     BRR_LOGV( "test verb" );

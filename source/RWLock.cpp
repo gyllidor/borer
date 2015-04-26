@@ -51,7 +51,7 @@ bool brr::RWLock::ReadLock()
     const int c_result = pthread_rwlock_rdlock(&m_rwLock);
     if ( c_result )
     {
-        BRR_LOGE("pthread_rwlock_rdlock() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_rwlock_rdlock() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 
@@ -66,7 +66,7 @@ bool brr::RWLock::TryReadLock()
     const int c_result = pthread_rwlock_tryrdlock(&m_rwLock);
     if ( c_result )
     {
-        BRR_LOGE("pthread_rwlock_tryrdlock() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_rwlock_tryrdlock() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 
@@ -81,7 +81,7 @@ bool brr::RWLock::WriteLock()
     const int c_result = pthread_rwlock_wrlock(&m_rwLock);
     if ( c_result )
     {
-        BRR_LOGE("pthread_rwlock_wrlock() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_rwlock_wrlock() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 
@@ -96,7 +96,7 @@ bool brr::RWLock::TryWriteLock()
     const int c_result = pthread_rwlock_trywrlock(&m_rwLock);
     if ( c_result )
     {
-        BRR_LOGE("pthread_rwlock_trywrlock() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_rwlock_trywrlock() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 
@@ -111,7 +111,7 @@ bool brr::RWLock::Unlock()
     const int c_result = pthread_rwlock_unlock(&m_rwLock);
     if ( c_result )
     {
-        BRR_LOGE("pthread_rwlock_unlock() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_rwlock_unlock() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 

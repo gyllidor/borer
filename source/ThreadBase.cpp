@@ -62,7 +62,7 @@ bool brr::ThreadBase::Run()
     const int c_result = pthread_create(&m_thread, NULL, ThreadFunction, this);
     if (c_result)
     {
-        BRR_LOGE("pthread_create() failed, %s", ErrnoDescription(c_result).c_str() );
+        BRR_LOGE("pthread_create() failed, %s", StrErrno(c_result).c_str() );
         return false;
     }
 
@@ -95,7 +95,7 @@ bool brr::ThreadBase::Join(void** pResult)
     const int c_result = pthread_join(m_thread, pResult);
     if (c_result)
     {
-        BRR_LOGE("pthread_join() failed, %s", ErrnoDescription(c_result).c_str() );
+        BRR_LOGE("pthread_join() failed, %s", StrErrno(c_result).c_str() );
         return false;
     }
 
@@ -119,7 +119,7 @@ bool brr::ThreadBase::Cancel()
     const int c_result = pthread_cancel(m_thread);
     if (c_result)
     {
-        BRR_LOGE("pthread_cancel() failed, %s", ErrnoDescription(c_result).c_str() );
+        BRR_LOGE("pthread_cancel() failed, %s", StrErrno(c_result).c_str() );
         return false;
     }
 
@@ -134,7 +134,7 @@ bool brr::ThreadBase::SetCancelState(int type)
     const int c_result = pthread_setcancelstate(type, NULL);
     if (c_result)
     {
-        BRR_LOGE("pthread_setcancelstate() failed, %s", ErrnoDescription(c_result).c_str());
+        BRR_LOGE("pthread_setcancelstate() failed, %s", StrErrno(c_result).c_str());
         return false;
     }
 
