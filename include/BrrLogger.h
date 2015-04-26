@@ -51,18 +51,19 @@ std::string ErrnoDescription()
 #define BRR_FC_RESET    "\033[0m"
 
 //! ************************************************************************************************
-//! @brief macros with file name (without full path);
+//! @brief cut file name from file path;
 //! ************************************************************************************************
 #ifdef __FILE_NAME__
 #warning macros __FILE_NAME__ already defined, you should change macros name
 #else // __FILE_NAME__
-#define __FILE_NAME__ ( ( strrchr( __FILE__, '/' ) + 1 ) ? \
-                        strrchr( __FILE__, '/' ) + 1 : __FILE__ )
+#define  __FILE_NAME__ ( ( strrchr( __FILE__, '/' ) + 1 ) ? \
+                           strrchr( __FILE__, '/' ) + 1 : __FILE__ )
 #endif // __FILE_NAME__
 
+#ifdef DEBUG_BUILD
+
 //! ************************************************************************************************
-//! @brief BrrLogger macroses;
-//! @brief Print message to stderr witht helpfull tags;
+//! @brief Print message to stderr with helpfull tags;
 //! ************************************************************************************************
 #define BRR_LOGI(format, arg...) fprintf(stderr, BRR_FC_CYAN   "[I][%s][%s][%d]: " BRR_FC_RESET \
                                          format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
@@ -79,5 +80,16 @@ std::string ErrnoDescription()
 #else
 #define BRR_LOGV
 #endif // VERBOSE_LOGGER
+
+#else // DEBUG_BUILD
+
+#define BRR_LOGI(format, arg...) fprintf(stderr, BRR_FC_CYAN   "[I][%s][%s][%d]: " BRR_FC_RESET \
+                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGW(format, arg...)
+#define BRR_LOGE(format, arg...) fprintf(stderr, BRR_FC_RED    "[E][%s][%s][%d]: " BRR_FC_RESET \
+                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGV(format, arg...)
+
+#endif // DEBUG_BUILD
 
 #endif // BRR_LOGGER_H

@@ -7,10 +7,12 @@
 //! ************************************************************************************************
 #include "ThreadBase.h"
 #include "BrrLogger.h"
+#include "BrrTypes.h"
 
 int main()
 {
-    BRR_LOGI( "test info" );
+    int32 test = 4;
+    BRR_LOGI( "test info %d", test );
     BRR_LOGW( "test warn" );
     BRR_LOGE( "test erro" );
     BRR_LOGV( "test verb" );

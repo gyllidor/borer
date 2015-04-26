@@ -19,6 +19,7 @@ class BrrBase
 public: // methods
     BrrBase() : m_className("<empty>") {}
     BrrBase(const std::string& className) : m_className(className) {}
+    virtual ~BrrBase() {}
 
     virtual const std::string& GetClassName() { return m_className; }
 

@@ -1,16 +1,22 @@
 ####################################################################################################
-CMAKE_MINIMUM_REQUIRED( VERSION 2.8 )
-PROJECT( borer )
-SET( VERSION 0.0.1 )
-#SET(CMAKE_CXX_COMPILER g++)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(borer)
+SET(VERSION 0.0.1)
+include(compilerflags.cmake)
 ####################################################################################################
 INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/include/
 ) # INCLUDE_DIRECTORIES
 #
 if (${VERBOSE_LOGGER})
-add_definitions(-DVERBOSE_LOGGER)
+    add_definitions(-DVERBOSE_LOGGER)
 endif (${VERBOSE_LOGGER})
+#
+if (${CMAKE_BUILD_TYPE} STREQUAL "debug")
+    add_definitions(-DDEBUG_BUILD)
+endif (${CMAKE_BUILD_TYPE})
+#
+message("${CMAKE_BUILD_TYPE}" )
 #
 set(OBJECTS_DIR ${CMAKE_SOURCE_DIR}/objects/)
 set(BINARY_DIR  ${CMAKE_SOURCE_DIR}/objects/bin)
@@ -24,5 +30,5 @@ file(GLOB_RECURSE BORER_HDR ${CMAKE_SOURCE_DIR}/include/*.h)
 add_library(${PROJECT_NAME} STATIC ${BORER_SRC} ${BORER_HDR})
 #
 if (${UNIT_TESTS})
-add_subdirectory(${CMAKE_SOURCE_DIR}/unit_tests/)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/unit_tests/)
 endif (${UNIT_TESTS})
