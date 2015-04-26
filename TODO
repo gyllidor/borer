@@ -1,4 +1,4 @@
 1. extend ThreadBase;
-2. add PtrGurad template;
+2. add PtrGuard template;
 3. add unit tests;
 4. add comments;
