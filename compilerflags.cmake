@@ -13,4 +13,4 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -Wall -Wcast-align -Wcast-qual -Werr
 -fno-optimize-sibling-calls -fno-strict-aliasing -fsigned-char -fstrict-overflow \
 -Wno-ignored-qualifiers -Wno-c++0x-compat -Wno-array-bounds -Wno-empty-body"
 ) # SET CMAKE_CXX_FLAGS
-message("${CMAKE_CXX_FLAGS}")
+message("CMAKE_CXX_FLAGS are ${CMAKE_CXX_FLAGS}")

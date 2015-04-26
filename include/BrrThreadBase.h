@@ -12,7 +12,7 @@
 
 // local
 #include "BrrBase.h"
-#include "RWLock.h"
+#include "BrrRWLock.h"
 
 // system
 #include <pthread.h>

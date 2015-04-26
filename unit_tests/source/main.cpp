@@ -5,19 +5,35 @@
 //! @date   24 Apr 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
+// local
+#include "TestThreadBase.h"
+
+// project
 #include "BrrLogger.h"
-#include "BrrTestBase.h"
+#include "BrrMemory.h"
+
+// system
+#include <vector>
 
 int main()
 {
-    brrut::BrrTestBase tests;
-    tests.Run();
+    std::vector < brrut::BrrTestBase* > poolTests;
+    poolTests.push_back( BRR_NEW_NOTHROW brrut::TestThreadBase );
 
-    BRR_ASSERT_EXIT(1==0);
+    std::vector < brrut::BrrTestBase* >::iterator itTest = poolTests.begin();
+    for (; itTest != poolTests.end(); ++itTest)
+        (*itTest)->Run();
+
+    itTest = poolTests.begin();
+    for (; itTest != poolTests.end(); ++itTest)
+        BRR_DELETE (*itTest);
+
     BRR_LOGI( "test info" );
     BRR_LOGW( "test warn" );
     BRR_LOGE( "test erro" );
     BRR_LOGV( "test verb" );
+    BRR_ASSERT(0==0);
+    BRR_ASSERT_EXIT(1==0);
 
     return 0;
 }

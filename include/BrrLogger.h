@@ -90,9 +90,9 @@ std::string StrErrno();
 #define BRR_ASSERT(EXPRESSION) \
 do { \
     if (EXPRESSION) \
-        BRR_LOGI("success "#EXPRESSION); \
+        BRR_LOGI("success ("#EXPRESSION")"); \
     else \
-        BRR_LOGE("failed "#EXPRESSION); \
+        BRR_LOGE("failed ("#EXPRESSION")"); \
 } while(0);
 
 //! ************************************************************************************************
@@ -101,10 +101,10 @@ do { \
 #define BRR_ASSERT_EXIT(EXPRESSION) \
 do { \
     if (EXPRESSION) \
-        BRR_LOGI("success "#EXPRESSION); \
+        BRR_LOGI("success ("#EXPRESSION")"); \
     else \
     { \
-        BRR_LOGE("failed "#EXPRESSION); \
+        BRR_LOGE("failed ("#EXPRESSION")"); \
         exit(1); \
     } \
 } while(0);

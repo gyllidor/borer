@@ -28,6 +28,8 @@ file(GLOB_RECURSE BORER_HDR ${CMAKE_SOURCE_DIR}/include/*.h)
 #
 add_library(${PROJECT_NAME} STATIC ${BORER_SRC} ${BORER_HDR})
 #
+target_link_libraries(${PROJECT_NAME} pthread)
+#
 if (${UNIT_TESTS})
     add_subdirectory(${CMAKE_SOURCE_DIR}/unit_tests/)
 endif (${UNIT_TESTS})

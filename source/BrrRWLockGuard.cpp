@@ -6,8 +6,8 @@
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
 // local
-#include "RWLockGuard.h"
-#include "RWLock.h"
+#include "BrrRWLockGuard.h"
+#include "BrrRWLock.h"
 #include "BrrLogger.h"
 
 //! ************************************************************************************************

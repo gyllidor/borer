@@ -3,7 +3,7 @@
 //! @brief  simple base class for unit tests; Just implement tests what you need and call them
 //! @brief  in method Run;
 //! @author gyllidor (gyllidor@ukr.net)
-//! @date   24 Apr 2015
+//! @date   26 Apr 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
 #ifndef BRR_TEST_BASE_H
@@ -25,17 +25,11 @@ private: // blocked methods
     const BrrTestBase& operator=( const BrrTestBase& rhs );
 
 public: // methods
-    BrrTestBase();
-    virtual ~BrrTestBase();
+    BrrTestBase() {}
+    virtual ~BrrTestBase() {}
 
-    void Run();
-    void Push( BrrTestBase* pTest );
+    virtual void Run() = 0;
 
-protected: // methods
-    virtual void Tests();
-
-public: // members
-    std::vector <BrrTestBase*> m_poolTests;
 }; // class BrrTestBase
 
 } // namespace brrut
