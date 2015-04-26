@@ -14,11 +14,10 @@ endif (${VERBOSE_LOGGER})
 #
 if (${CMAKE_BUILD_TYPE} STREQUAL "debug")
     add_definitions(-DDEBUG_BUILD)
-endif (${CMAKE_BUILD_TYPE})
+endif (${CMAKE_BUILD_TYPE} STREQUAL "debug")
 #
-message("${CMAKE_BUILD_TYPE}" )
+message("CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}" )
 #
-set(OBJECTS_DIR ${CMAKE_SOURCE_DIR}/objects/)
 set(BINARY_DIR  ${CMAKE_SOURCE_DIR}/objects/bin)
 set(LIBRARY_DIR ${CMAKE_SOURCE_DIR}/objects/lib)
 set(LIBRARY_OUTPUT_PATH            ${LIBRARY_DIR})

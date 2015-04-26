@@ -23,7 +23,7 @@ namespace brr
 //! @param  [in] error number (errno for example);
 //! @return description of system error;
 //! ************************************************************************************************
-std::string ErrnoDescription( error_t error )
+std::string ErrnoDescription( int error )
 {
     const size_t c_bufferLen = 256;
     char buffer[ c_bufferLen ] = { 0 };

@@ -1,2 +1,4 @@
-1. add build script *.sh for build withoud IDE;
+1. extend ThreadBase;
 2. add PtrGurad template;
+3. add unit tests;
+4. add comments;

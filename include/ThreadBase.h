@@ -12,6 +12,10 @@
 
 // local
 #include "BrrBase.h"
+#include "RWLock.h"
+
+// system
+#include <pthread.h>
 
 namespace brr
 {
@@ -21,16 +25,25 @@ class ThreadBase : public BrrBase
 public: // methods
     ThreadBase();
     ThreadBase(const std::string& threadName);
-//    bool Run();
-//    bool Join();
-//    bool NotifyToStop();
-//    bool Cancel();
+    bool Run();
+    bool IsRunning();
+    bool Join();
+    bool Join(void** pResult);
+    bool NotifyToStop();
+    bool Cancel();
 
 protected: // methods
-//    bool CancelationPoint();
+    virtual void* ThreadMethod() = 0;
+    bool SetCancelState(int type);
+    bool CancelationPoint();
+
+private: // methods
+    static void* ThreadFunction(void* pContext);
 
 protected: // members
-    pthread_t m_thread;
+    pthread_t     m_thread;
+    volatile bool m_isRunning;
+    RWLock        m_rwLock;
 
 }; // class ThreadBase
 
