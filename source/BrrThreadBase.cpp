@@ -116,7 +116,8 @@ bool brr::ThreadBase::Join(void** pResult)
 bool brr::ThreadBase::NotifyToStop()
 {
     WriteLockGuard guard(&m_rwLock);
-    return (m_isRunning = false);
+    m_isRunning = false;
+    return true;
 }
 
 //! ************************************************************************************************

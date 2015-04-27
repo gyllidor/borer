@@ -7,6 +7,7 @@
 //! ************************************************************************************************
 // local
 #include "TestThreadBase.h"
+#include "BrrTime.h"
 
 // project
 #include "BrrThreadBase.h"
@@ -21,7 +22,8 @@
 //! ************************************************************************************************
 //! @brief constants
 //! ************************************************************************************************
-static const std::string sc_retVal( "test_string" );
+static const std::string sc_retVal     = "test_string";
+static const time_t      sc_timeFailed = -1;
 
 //! ************************************************************************************************
 //! @brief class ThreadBase sample
@@ -58,17 +60,36 @@ private:
     volatile bool m_shouldReturnVal;
     volatile uint m_timeOut;
 
-}; // class TestRun
+}; // class TestSample
+
+//! ************************************************************************************************
+//! @brief class ThreadBase sample 2
+//! ************************************************************************************************
+struct TestSample2 : public brr::ThreadBase
+{
+    void* ThreadMethod()
+    {
+        uint threeSeconds = 15;
+        while (ThreadBase::IsRunning() && threeSeconds--)
+        {
+            brr::USleep(brr::sc_secondInUs/5);
+            ThreadBase::CancelationPoint();
+        }
+
+        return NULL;
+    }
+
+}; // struct TestSample2
 
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
 void brrut::TestThreadBase::Run()
 {
-    TestRun();
-    TestJoinRetVal();
-    TestNotifyToStop();
-    TestCancel();
+    BRRUT_ADD_TEST(TestRun);
+    BRRUT_ADD_TEST(TestJoinRetVal);
+    BRRUT_ADD_TEST(TestNotifyToStop);
+    BRRUT_ADD_TEST(TestCancel);
 }
 
 //! ************************************************************************************************
@@ -100,7 +121,16 @@ void brrut::TestThreadBase::TestJoinRetVal()
 //! ************************************************************************************************
 void brrut::TestThreadBase::TestNotifyToStop()
 {
+    TestSample2 thread;
+    BRR_ASSERT(thread.Run());
 
+    const time_t startTime = brr::GetTime();
+    BRR_ASSERT(startTime != sc_timeFailed)
+    BRR_ASSERT(thread.NotifyToStop());
+    BRR_ASSERT(thread.Join());
+    const time_t finishTime = brr::GetTime();
+    BRR_ASSERT(finishTime != sc_timeFailed)
+    BRR_ASSERT((finishTime - startTime) <=1 );
 }
 
 //! ************************************************************************************************
@@ -108,5 +138,14 @@ void brrut::TestThreadBase::TestNotifyToStop()
 //! ************************************************************************************************
 void brrut::TestThreadBase::TestCancel()
 {
+    TestSample2 thread;
+    BRR_ASSERT(thread.Run());
 
+    const time_t startTime = brr::GetTime();
+    BRR_ASSERT(startTime != sc_timeFailed)
+    BRR_ASSERT(thread.Cancel());
+    BRR_ASSERT(thread.Join());
+    const time_t finishTime = brr::GetTime();
+    BRR_ASSERT(finishTime != sc_timeFailed)
+    BRR_ASSERT((finishTime - startTime) <=1 );
 }

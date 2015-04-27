@@ -11,6 +11,9 @@
 // local
 #include "BrrTypes.h"
 
+// system
+#include <time.h>
+
 namespace brr
 {
 //! ************************************************************************************************
@@ -25,6 +28,7 @@ static const uint sc_second = 1;
 static const uint sc_secondInUs = 1000000;
 
 //! ************************************************************************************************
+//! @brief  For more details "man 3 sleep"
 //! @brief  sleep for the specified number of seconds. Makes the calling thread sleep until seconds
 //! @brief  seconds have elapsed or a signal arrives which is not ignored.
 //! @param  [in] seconds - number of seconds for sleep;
@@ -34,6 +38,7 @@ static const uint sc_secondInUs = 1000000;
 uint Sleep(uint seconds);
 
 //! ************************************************************************************************
+//! @brief  For more details "man 3 usleep"
 //! @brief  Suspend execution for microsecond intervals. The usleep() function suspends execution of
 //! @brief  the calling thread for (at least) microSeconds microseconds. The sleep may be lengthened
 //! @brief  slightly by any system activity or by the time spent processing the call or by the
@@ -43,6 +48,23 @@ uint Sleep(uint seconds);
 //! @return error.
 //! ************************************************************************************************
 int USleep(uint microSeconds);
+
+//! ************************************************************************************************
+//! @brief  For more details "man 3 time"
+//! @brief  Function shall return the value of time in seconds since the Epoch.
+//! @return Upon successful completion, GetTime() shall return the value of time. Otherwise,
+//! @return (time_t)-1 shall be returned.
+//! ************************************************************************************************
+time_t GetTime();
+
+//! ************************************************************************************************
+//! @brief  For more details "man 3 time"
+//! @brief  Function shall return the value of time in seconds since the Epoch.
+//! @param  [in] tloc - argument points to an area where the return value is also stored.
+//! @return Upon successful completion, GetTime() shall return the value of time. Otherwise,
+//! @return (time_t)-1 shall be returned.
+//! ************************************************************************************************
+time_t GetTime(time_t& tloc);
 
 } // namespace brr
 

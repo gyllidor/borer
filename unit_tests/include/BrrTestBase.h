@@ -9,8 +9,20 @@
 #ifndef BRR_TEST_BASE_H
 #define BRR_TEST_BASE_H
 
+// local
+#include "BrrLogger.h"
+
 // system
 #include <vector>
+
+//! ************************************************************************************************
+//! @brief print name of test and then run test;
+//! ************************************************************************************************
+#define BRRUT_ADD_TEST(TEST_NAME) \
+do { \
+    BRR_LOGI("### start %s ###", #TEST_NAME); \
+    TEST_NAME(); \
+} while(0);
 
 //! ************************************************************************************************
 //! @brief namespace for unit test, brrut(borer unit test);
