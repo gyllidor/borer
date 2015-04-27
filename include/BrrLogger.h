@@ -84,29 +84,4 @@ std::string StrErrno();
 
 #endif // DEBUG_BUILD
 
-//! ************************************************************************************************
-//! @brief check EXPRESSION and print message success or failed;
-//! ************************************************************************************************
-#define BRR_ASSERT(EXPRESSION) \
-do { \
-    if (EXPRESSION) \
-        BRR_LOGI("success ("#EXPRESSION")"); \
-    else \
-        BRR_LOGE("failed ("#EXPRESSION")"); \
-} while(0);
-
-//! ************************************************************************************************
-//! @brief check EXPRESSION and print message success or failed. If failed then exit from app;
-//! ************************************************************************************************
-#define BRR_ASSERT_EXIT(EXPRESSION) \
-do { \
-    if (EXPRESSION) \
-        BRR_LOGI("success ("#EXPRESSION")"); \
-    else \
-    { \
-        BRR_LOGE("failed ("#EXPRESSION")"); \
-        exit(1); \
-    } \
-} while(0);
-
 #endif // BRR_LOGGER_H

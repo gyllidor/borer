@@ -28,12 +28,12 @@ int main()
     for (; itTest != poolTests.end(); ++itTest)
         BRR_DELETE (*itTest);
 
-    BRR_LOGI( "test info" );
-    BRR_LOGW( "test warn" );
-    BRR_LOGE( "test erro" );
-    BRR_LOGV( "test verb" );
-    BRR_ASSERT(0==0);
-    BRR_ASSERT_EXIT(1==0);
+    BRR_LOGI("test info");
+    BRR_LOGW("test warn");
+    BRR_LOGE("test erro");
+    BRR_LOGV("test verb");
+    BRRUT_ASSERT(0==0);
+    BRRUT_ASSERT_EXIT(1==0);
 
     return 0;
 }

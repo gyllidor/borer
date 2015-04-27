@@ -98,9 +98,9 @@ void brrut::TestThreadBase::Run()
 void brrut::TestThreadBase::TestRun()
 {
     TestSample thread(false, 1);
-    BRR_ASSERT(thread.Run());
-    BRR_ASSERT(thread.IsRunning());
-    BRR_ASSERT(thread.Join());
+    BRRUT_ASSERT(thread.Run());
+    BRRUT_ASSERT(thread.IsRunning());
+    BRRUT_ASSERT(thread.Join());
 }
 
 //! ************************************************************************************************
@@ -110,9 +110,9 @@ void brrut::TestThreadBase::TestJoinRetVal()
 {
     char* pRetVal = NULL;
     TestSample thread(true, 0);
-    BRR_ASSERT(thread.Run());
-    BRR_ASSERT(thread.Join((void**)&pRetVal));
-    BRR_ASSERT(sc_retVal == pRetVal);
+    BRRUT_ASSERT(thread.Run());
+    BRRUT_ASSERT(thread.Join((void**)&pRetVal));
+    BRRUT_ASSERT(sc_retVal == pRetVal);
     BRR_DELETE_ARRAY pRetVal;
 }
 
@@ -122,15 +122,15 @@ void brrut::TestThreadBase::TestJoinRetVal()
 void brrut::TestThreadBase::TestNotifyToStop()
 {
     TestSample2 thread;
-    BRR_ASSERT(thread.Run());
+    BRRUT_ASSERT(thread.Run());
 
     const time_t startTime = brr::GetTime();
-    BRR_ASSERT(startTime != sc_timeFailed)
-    BRR_ASSERT(thread.NotifyToStop());
-    BRR_ASSERT(thread.Join());
+    BRRUT_ASSERT(startTime != sc_timeFailed)
+    BRRUT_ASSERT(thread.NotifyToStop());
+    BRRUT_ASSERT(thread.Join());
     const time_t finishTime = brr::GetTime();
-    BRR_ASSERT(finishTime != sc_timeFailed)
-    BRR_ASSERT((finishTime - startTime) <=1 );
+    BRRUT_ASSERT(finishTime != sc_timeFailed)
+    BRRUT_ASSERT((finishTime - startTime) <=1 );
 }
 
 //! ************************************************************************************************
@@ -139,13 +139,13 @@ void brrut::TestThreadBase::TestNotifyToStop()
 void brrut::TestThreadBase::TestCancel()
 {
     TestSample2 thread;
-    BRR_ASSERT(thread.Run());
+    BRRUT_ASSERT(thread.Run());
 
     const time_t startTime = brr::GetTime();
-    BRR_ASSERT(startTime != sc_timeFailed)
-    BRR_ASSERT(thread.Cancel());
-    BRR_ASSERT(thread.Join());
+    BRRUT_ASSERT(startTime != sc_timeFailed)
+    BRRUT_ASSERT(thread.Cancel());
+    BRRUT_ASSERT(thread.Join());
     const time_t finishTime = brr::GetTime();
-    BRR_ASSERT(finishTime != sc_timeFailed)
-    BRR_ASSERT((finishTime - startTime) <=1 );
+    BRRUT_ASSERT(finishTime != sc_timeFailed)
+    BRRUT_ASSERT((finishTime - startTime) <=1 );
 }
