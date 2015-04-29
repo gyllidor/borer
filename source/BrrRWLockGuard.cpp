@@ -14,7 +14,7 @@
 //! @file class WriteLockGuard
 //! ************************************************************************************************
 brr::WriteLockGuard::WriteLockGuard(RWLock* pRWLock)
-    : BrrBase()
+    : Base()
     , m_pRWLock(pRWLock)
 {
     if (NULL == pRWLock)
@@ -27,13 +27,13 @@ brr::WriteLockGuard::WriteLockGuard(RWLock* pRWLock)
 //!
 //! ************************************************************************************************
 brr::WriteLockGuard::WriteLockGuard(RWLock *pRWLock, const std::string &c_className)
-    : BrrBase(c_className)
+    : Base(c_className)
     , m_pRWLock(pRWLock)
 {
     if (NULL == pRWLock)
         BRR_LOGE("NULL == pRWLock");
     else if (false == m_pRWLock->WriteLock())
-        BRR_LOGE("WriteLock(%s) failed", BrrBase::GetClassName().c_str());
+        BRR_LOGE("WriteLock(%s) failed", Base::GetClassName().c_str());
 }
 
 //! ************************************************************************************************
@@ -45,7 +45,7 @@ brr::WriteLockGuard::~WriteLockGuard()
         BRR_LOGE("NULL == m_pRWLock");
     else if (false == m_pRWLock->Unlock())
     {
-        const std::string c_className(BrrBase::GetClassName());
+        const std::string c_className(Base::GetClassName());
         BRR_LOGE("Unlock(%s) failed", ( c_className == "<empty>" ) ? "" : c_className.c_str());
     }
 }
@@ -54,7 +54,7 @@ brr::WriteLockGuard::~WriteLockGuard()
 //! @file class ReadLockGuard
 //! ************************************************************************************************
 brr::ReadLockGuard::ReadLockGuard(RWLock* pRWLock)
-    : BrrBase()
+    : Base()
     , m_pRWLock(pRWLock)
 {
     if (NULL == pRWLock)
@@ -67,13 +67,13 @@ brr::ReadLockGuard::ReadLockGuard(RWLock* pRWLock)
 //!
 //! ************************************************************************************************
 brr::ReadLockGuard::ReadLockGuard(RWLock *pRWLock, const std::string &c_className)
-    : BrrBase(c_className)
+    : Base(c_className)
     , m_pRWLock(pRWLock)
 {
     if (NULL == pRWLock)
         BRR_LOGE("NULL == pRWLock");
     else if (false == m_pRWLock->ReadLock())
-        BRR_LOGE("WriteLock(%s) failed", BrrBase::GetClassName().c_str());
+        BRR_LOGE("WriteLock(%s) failed", Base::GetClassName().c_str());
 }
 
 //! ************************************************************************************************
@@ -85,7 +85,7 @@ brr::ReadLockGuard::~ReadLockGuard()
         BRR_LOGE("NULL == m_pRWLock");
     else if (false == m_pRWLock->Unlock())
     {
-        const std::string c_className(BrrBase::GetClassName());
+        const std::string c_className(Base::GetClassName());
         BRR_LOGE("Unlock(%s) failed", ( c_className == "<empty>" ) ? "" : c_className.c_str());
     }
 }

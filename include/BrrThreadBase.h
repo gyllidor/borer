@@ -20,7 +20,7 @@
 namespace brr
 {
 
-class ThreadBase : public BrrBase
+class ThreadBase : public Base
 {
 public: // methods
     ThreadBase();

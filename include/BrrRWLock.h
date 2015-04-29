@@ -17,7 +17,7 @@
 namespace brr
 {
 
-class RWLock : public BrrBase
+class RWLock : public Base
 {
 private: // blocked methods
     RWLock( const RWLock& rwLock );

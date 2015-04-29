@@ -14,12 +14,12 @@
 namespace brr
 {
 
-class BrrBase
+class Base
 {
 public: // methods
-    BrrBase() : m_className("<empty>") {}
-    BrrBase(const std::string& className) : m_className(className) {}
-    virtual ~BrrBase() {}
+    Base() : m_className("<empty>") {}
+    Base(const std::string& className) : m_className(className) {}
+    virtual ~Base() {}
 
     virtual const std::string& GetClassName() { return m_className; }
 

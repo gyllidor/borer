@@ -13,7 +13,7 @@
 //!
 //! ************************************************************************************************
 brr::RWLock::RWLock()
-    : BrrBase()
+    : Base()
     , m_rwLock()
 {
     const int c_result = pthread_rwlock_init(&m_rwLock, NULL);
@@ -25,7 +25,7 @@ brr::RWLock::RWLock()
 //!
 //! ************************************************************************************************
 brr::RWLock::RWLock(const std::string &c_className)
-    : BrrBase(c_className)
+    : Base(c_className)
     , m_rwLock()
 {
     const int c_result = pthread_rwlock_init(&m_rwLock, NULL);

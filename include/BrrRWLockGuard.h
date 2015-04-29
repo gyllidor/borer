@@ -18,7 +18,7 @@ class RWLock;
 //! ************************************************************************************************
 //! @file Lock RWLock for write
 //! ************************************************************************************************
-class WriteLockGuard : public BrrBase
+class WriteLockGuard : public Base
 {
 private: // blocked methods
     WriteLockGuard(const WriteLockGuard& c_guard);
@@ -37,7 +37,7 @@ private: // members
 //! ************************************************************************************************
 //! @file Lock RWLock for read
 //! ************************************************************************************************
-class ReadLockGuard : public BrrBase
+class ReadLockGuard : public Base
 {
 private: // blocked methods
     ReadLockGuard(const ReadLockGuard& c_guard);

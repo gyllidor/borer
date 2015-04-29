@@ -48,8 +48,7 @@ std::string StrErrno();
 #ifdef __FILE_NAME__
 #warning macros __FILE_NAME__ already defined, you should change macros name
 #else // __FILE_NAME__
-#define  __FILE_NAME__ ( ( strrchr( __FILE__, '/' ) + 1 ) ? \
-                           strrchr( __FILE__, '/' ) + 1 : __FILE__ )
+#define  __FILE_NAME__ ((strrchr(__FILE__, '/') + 1) ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #endif // __FILE_NAME__
 
 #ifdef DEBUG_BUILD

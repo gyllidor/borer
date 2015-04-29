@@ -1,6 +1,6 @@
 //! ************************************************************************************************
 //! @file   BrrTypes.h
-//! @brief  defines for system types
+//! @brief  defines/typedefs for system types
 //! @author gyllidor (gyllidor@ukr.net)
 //! @date   26 Apr 2015
 //! @link   https://github.com/gyllidor/borer

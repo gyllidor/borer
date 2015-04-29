@@ -33,7 +33,7 @@ void *brr::ThreadBase::ThreadFunction(void *pContext)
 //!
 //! ************************************************************************************************
 brr::ThreadBase::ThreadBase()
-    : BrrBase()
+    : Base()
     , m_thread(0)
     , m_isRunning(false)
     , m_rwLock()
@@ -44,7 +44,7 @@ brr::ThreadBase::ThreadBase()
 //!
 //! ************************************************************************************************
 brr::ThreadBase::ThreadBase(const std::string &threadName)
-    : BrrBase(threadName)
+    : Base(threadName)
     , m_thread(0)
     , m_isRunning(false)
     , m_rwLock(threadName + "RwLock")
