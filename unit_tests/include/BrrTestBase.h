@@ -9,17 +9,61 @@
 #ifndef BRR_TEST_BASE_H
 #define BRR_TEST_BASE_H
 
-// local
+// project
 #include "BrrLogger.h"
+#include "BrrMemory.h"
 
 // system
 #include <vector>
 
 //! ************************************************************************************************
-//! @brief counters for test, number of all, failed and success tests
+//! @brief namespace for unit test, brrut(borer unit test);
 //! ************************************************************************************************
-static int s_numberOfTests = 0;
-static int s_failedTests   = 0;
+namespace brrut
+{
+
+//! ************************************************************************************************
+//! @brief counters for test, number of all, failed and success tests;
+//! ************************************************************************************************
+class TestCounter
+{
+private: // blocked methods
+    TestCounter() : m_allTest(0), m_failedTest(0) {}
+    TestCounter(const TestCounter& rhs);
+    TestCounter& operator=(const TestCounter& rhs);
+
+public: // methods
+    static TestCounter& GetInstance() { static TestCounter tCounter; return tCounter; }
+    int  IncreaseAllTest()     { return ++m_allTest; }
+    int  IncreaseFailedTest()  { ++m_allTest; return ++m_failedTest; }
+    void PrintResult()
+    {
+        BRR_LOGI("### Test results: all %d | failed %d | success %d",
+                 m_allTest, m_failedTest, m_allTest-m_failedTest );
+    }
+
+private: // members
+    int m_allTest;
+    int m_failedTest;
+
+}; // TestCounter
+
+//! ************************************************************************************************
+//! @brief base abstract class for unit tests;
+//! ************************************************************************************************
+class TestBase
+{
+private: // blocked methods
+    TestBase( const TestBase& rhs );
+    const TestBase& operator=( const TestBase& rhs );
+
+public: // methods
+    TestBase() {}
+    virtual ~TestBase() {}
+
+    virtual void Run() = 0;
+
+}; // class TestBase
 
 //! ************************************************************************************************
 //! @brief print name of test and then run test;
@@ -35,13 +79,15 @@ do { \
 //! ************************************************************************************************
 #define BRRUT_ASSERT(EXPRESSION) \
 do { \
-    ++s_numberOfTests; \
     if (EXPRESSION) \
+    { \
+        brrut::TestCounter::GetInstance().IncreaseAllTest(); \
         BRR_LOGI("success ("#EXPRESSION")"); \
+    } \
     else \
     { \
+        brrut::TestCounter::GetInstance().IncreaseFailedTest(); \
         BRR_LOGE("failed ("#EXPRESSION")"); \
-        ++s_failedTests; \
     } \
 } while(0);
 
@@ -50,39 +96,20 @@ do { \
 //! ************************************************************************************************
 #define BRRUT_ASSERT_EXIT(EXPRESSION) \
 do { \
-    ++s_numberOfTests; \
     if (EXPRESSION) \
+    { \
+        brrut::TestCounter::GetInstance().IncreaseAllTest(); \
         BRR_LOGI("success ("#EXPRESSION")"); \
+    } \
     else \
     { \
-        ++s_failedTests; \
+        brrut::TestCounter::GetInstance().IncreaseFailedTest(); \
         BRR_LOGE("failed ("#EXPRESSION")"); \
-        BRR_LOGI("all %d, success %d, failed %d", \
-                 s_numberOfTests, s_numberOfTests - s_failedTests, s_failedTests); \
         BRR_LOGI("exit with status 1"); \
+        brrut::TestCounter::GetInstance().PrintResult(); \
         exit(1); \
     } \
 } while(0);
-
-//! ************************************************************************************************
-//! @brief namespace for unit test, brrut(borer unit test);
-//! ************************************************************************************************
-namespace brrut
-{
-
-class BrrTestBase
-{
-private: // blocked methods
-    BrrTestBase( const BrrTestBase& rhs );
-    const BrrTestBase& operator=( const BrrTestBase& rhs );
-
-public: // methods
-    BrrTestBase() {}
-    virtual ~BrrTestBase() {}
-
-    virtual void Run() = 0;
-
-}; // class BrrTestBase
 
 } // namespace brrut
 

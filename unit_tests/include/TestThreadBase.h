@@ -14,7 +14,7 @@
 namespace brrut
 {
 
-class TestThreadBase : public BrrTestBase
+class TestThreadBase : public TestBase
 {
 public: // methods
     void Run();
