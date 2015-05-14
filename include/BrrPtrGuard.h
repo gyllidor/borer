@@ -77,7 +77,7 @@ public: // methods
         : PtrGuard <Type> (pPointer, className)
     {}
 
-    Type& operator[](size_t idx)       { return PtrGuard<Type>::m_pPointer[idx]; }
+    Type& operator[](size_t idx) { return PtrGuard<Type>::m_pPointer[idx]; }
 
     ~PtrArrayGuard()
     {
@@ -86,6 +86,7 @@ public: // methods
     }
 
 }; // class PtrArrayGuard
+
 } // namespace brr
 
 #endif // BRR_PTR_GUARD_H
