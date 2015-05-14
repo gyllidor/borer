@@ -1,12 +1,12 @@
 //! ************************************************************************************************
-//! @file   TestThreadBase.h
-//! @brief  unit tests for BrrThreadBase
+//! @file   TestPtrGuard.h
+//! @brief  unit tests for BrrPtrGuard
 //! @author gyllidor (gyllidor@ukr.net)
-//! @date   24 Apr 2015
+//! @date   14 May 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
-#ifndef TEST_THREAD_BASE_H
-#define TEST_THREAD_BASE_H
+#ifndef TEST_PTR_GUARD_H
+#define TEST_PTR_GUARD_H
 
 // local
 #include "BrrTestBase.h"
@@ -14,19 +14,17 @@
 namespace brrut
 {
 
-class TestThreadBase : public TestBase
+class TestPtrGuard : public TestBase
 {
 public: // methods
     void Run();
 
 private: // methods
-    void TestRun();
-    void TestJoinRetVal();
-    void TestNotifyToStop();
-    void TestCancel();
+    void TestDereferencePtr();
+    void TestDereferenceArrayPtr();
 
-}; // class TestThreadBase
+}; // class TestPtrGuard
 
-} // namespace brr
+} // namespace brrut
 
-#endif // TEST_THREAD_BASE_H
+#endif // TEST_PTR_GUARD

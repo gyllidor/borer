@@ -1,12 +1,12 @@
 //! ************************************************************************************************
-//! @file   BrrPtrHolder.h
+//! @file   BrrPtrGuard.h
 //! @brief  holders for pointer and array of pointer
 //! @author gyllidor (gyllidor@ukr.net)
 //! @date   29 Apr 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
-#ifndef BRR_PTR_HOLDER_H
-#define BRR_PTR_HOLDER_H
+#ifndef BRR_PTR_GUARD_H
+#define BRR_PTR_GUARD_H
 
 // local
 #include "BrrBase.h"
@@ -23,68 +23,69 @@ namespace brr
 //! @brief object not copyable. In desctructor will be memory dealocation;
 //! ************************************************************************************************
 template <typename Type>
-class PtrHolder : public Base
+class PtrGuard : public Base
 {
 private: // blocked methods
-    PtrHolder();
-    PtrHolder(const PtrHolder& rhs);
-    PtrHolder& operator=(const PtrHolder& rhs);
+    PtrGuard();
+    PtrGuard(const PtrGuard& rhs);
+    PtrGuard& operator=(const PtrGuard& rhs);
 
 public: // methods
-    PtrHolder(Type*& pPointer)
+    PtrGuard(Type* pPointer)
         : Base()
         , m_pPointer(pPointer)
     {}
 
-    PtrHolder(Type* pPointer, const std::string& className)
+    PtrGuard(Type* pPointer, const std::string& className)
         : Base(className)
         , m_pPointer(pPointer)
     {}
 
-    ~PtrHolder()
+    ~PtrGuard()
     {
         BRR_DELETE m_pPointer;
         m_pPointer = NULL;
     }
 
-    const Type& operator*()  const { return *m_pPointer; }
-          Type& operator*()        { return *m_pPointer; }
-    const Type& operator->() const { return *m_pPointer; }
-          Type& operator->()       { return *m_pPointer; }
+    Type* Data() { return m_pPointer; }
+    Type& operator*()  const { return *m_pPointer; }
+    Type* operator->() const { return m_pPointer; }
 
 protected: // members
-    Type*& m_pPointer;
+    Type* m_pPointer;
 
-}; // class PtrHolder
+}; // class PtrGuard
 
 //! ************************************************************************************************
 //! @brief intent: hold and dealocation(similar to PtrHolder) array of pointers;
 //! @brief object not copyable. In desctructor will be memory dealocation;
 //! ************************************************************************************************
 template <typename Type>
-class PtrArrayHolder : public PtrHolder <Type>
+class PtrArrayGuard : public PtrGuard <Type>
 {
 private: // blocked methods
-    PtrArrayHolder();
-    PtrArrayHolder(const PtrArrayHolder& rhs);
-    PtrArrayHolder& operator=(const PtrArrayHolder& rhs);
+    PtrArrayGuard();
+    PtrArrayGuard(const PtrArrayGuard& rhs);
+    PtrArrayGuard& operator=(const PtrArrayGuard& rhs);
 
 public: // methods
-    PtrArrayHolder(Type*& pPointer)
-        : PtrHolder <Type> (pPointer)
+    PtrArrayGuard(Type* pPointer)
+        : PtrGuard <Type> (pPointer)
     {}
 
-    const Type& operator[](size_t idx) const { return PtrHolder<Type>::m_pPointer[idx]; }
-          Type& operator[](size_t idx)       { return PtrHolder<Type>::m_pPointer[idx]; }
+    PtrArrayGuard(Type* pPointer, const std::string& className)
+        : PtrGuard <Type> (pPointer, className)
+    {}
 
-    ~PtrArrayHolder()
+    Type& operator[](size_t idx)       { return PtrGuard<Type>::m_pPointer[idx]; }
+
+    ~PtrArrayGuard()
     {
-        BRR_DELETE_ARRAY PtrHolder<Type>::m_pPointer;
-        PtrHolder<Type>::m_pPointer = NULL;
+        BRR_DELETE_ARRAY PtrGuard<Type>::m_pPointer;
+        PtrGuard<Type>::m_pPointer = NULL;
     }
 
-}; // class PtrArrayHolder
-
+}; // class PtrArrayGuard
 } // namespace brr
 
-#endif // BRR_PTR_HOLDER
+#endif // BRR_PTR_GUARD_H

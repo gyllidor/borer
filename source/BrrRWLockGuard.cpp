@@ -26,7 +26,7 @@ brr::WriteLockGuard::WriteLockGuard(RWLock* pRWLock)
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-brr::WriteLockGuard::WriteLockGuard(RWLock *pRWLock, const std::string &c_className)
+brr::WriteLockGuard::WriteLockGuard(RWLock* pRWLock, const std::string& c_className)
     : Base(c_className)
     , m_pRWLock(pRWLock)
 {

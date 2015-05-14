@@ -39,7 +39,7 @@ std::string StrErrno();
 #define BRR_FC_CYAN     "\033[36m"
 #define BRR_FC_YELLOW   "\033[33m"
 #define BRR_FC_RED      "\033[31m"
-#define BRR_FC_WHITE    "\033[32m"
+#define BRR_FC_WHITE    "\033[37m"
 #define BRR_FC_RESET    "\033[0m"
 
 //! ************************************************************************************************
@@ -51,34 +51,32 @@ std::string StrErrno();
 #define  __FILE_NAME__ ((strrchr(__FILE__, '/') + 1) ? strrchr(__FILE__, '/') + 1 : __FILE__)
 #endif // __FILE_NAME__
 
+//! ************************************************************************************************
+//! @brief prepare prefix for log message - [I][FILE_NAME][FUNCTION][LINE_NUMBER]${message};\n;
+//! ************************************************************************************************
+#define PREPARE_FORMAT(prefix, format) \
+prefix "[%s][%s][%d]: " BRR_FC_RESET format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__
+
 #ifdef DEBUG_BUILD
 
 //! ************************************************************************************************
 //! @brief Print message to stderr with helpfull tags;
 //! ************************************************************************************************
-#define BRR_LOGI(format, arg...) fprintf(stderr, BRR_FC_CYAN   "[I][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
-
-#define BRR_LOGW(format, arg...) fprintf(stderr, BRR_FC_YELLOW "[W][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
-
-#define BRR_LOGE(format, arg...) fprintf(stderr, BRR_FC_RED    "[E][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGI(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_CYAN   "[I]", format), ##arg)
+#define BRR_LOGW(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_YELLOW "[W]", format), ##arg)
+#define BRR_LOGE(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_RED    "[E]", format), ##arg)
 
 #ifdef VERBOSE_LOGGER
-#define BRR_LOGV(format, arg...) fprintf(stderr, BRR_FC_WHITE  "[V][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGV(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_WHITE  "[V]", format), ##arg)
 #else
 #define BRR_LOGV
 #endif // VERBOSE_LOGGER
 
 #else // DEBUG_BUILD
 
-#define BRR_LOGI(format, arg...) fprintf(stderr, BRR_FC_CYAN   "[I][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGI(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_CYAN   "[I]", format), ##arg)
 #define BRR_LOGW(format, arg...)
-#define BRR_LOGE(format, arg...) fprintf(stderr, BRR_FC_RED    "[E][%s][%s][%d]: " BRR_FC_RESET \
-                                         format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__, ##arg)
+#define BRR_LOGE(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_RED    "[E]", format), ##arg)
 #define BRR_LOGV(format, arg...)
 
 #endif // DEBUG_BUILD

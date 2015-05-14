@@ -4,6 +4,8 @@ PROJECT(borer)
 SET(VERSION 0.0.1)
 include(compilerflags.cmake)
 ####################################################################################################
+# cmake -DUNIT_TESTS:BOOL=ON -DVERBOSE_LOGGER:BOOL=ON -DCMAKE_BUILD_TYPE=debug
+####################################################################################################
 INCLUDE_DIRECTORIES(
     ${CMAKE_SOURCE_DIR}/include/
 ) # INCLUDE_DIRECTORIES

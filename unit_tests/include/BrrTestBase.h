@@ -25,20 +25,20 @@ namespace brrut
 //! ************************************************************************************************
 //! @brief counters for test, number of all, failed and success tests;
 //! ************************************************************************************************
-class TestCounter
+class UnitTestCounter
 {
 private: // blocked methods
-    TestCounter() : m_allTest(0), m_failedTest(0) {}
-    TestCounter(const TestCounter& rhs);
-    TestCounter& operator=(const TestCounter& rhs);
+    UnitTestCounter() : m_allTest(0), m_failedTest(0) {}
+    UnitTestCounter(const UnitTestCounter& rhs);
+    UnitTestCounter& operator=(const UnitTestCounter& rhs);
 
 public: // methods
-    static TestCounter& GetInstance() { static TestCounter tCounter; return tCounter; }
+    static UnitTestCounter& GetInstance() { static UnitTestCounter tCounter; return tCounter; }
     int  IncreaseAllTest()     { return ++m_allTest; }
     int  IncreaseFailedTest()  { ++m_allTest; return ++m_failedTest; }
     void PrintResult()
     {
-        BRR_LOGI("### Test results: all %d | failed %d | success %d",
+        BRR_LOGI("### Test results: all %d | failed %d | success %d ###",
                  m_allTest, m_failedTest, m_allTest-m_failedTest );
     }
 
@@ -70,7 +70,7 @@ public: // methods
 //! ************************************************************************************************
 #define BRRUT_ADD_TEST(TEST_NAME) \
 do { \
-    BRR_LOGI("### start %s ###", #TEST_NAME); \
+    BRR_LOGI("### start " #TEST_NAME " ###"); \
     TEST_NAME(); \
 } while(0);
 
@@ -81,12 +81,12 @@ do { \
 do { \
     if (EXPRESSION) \
     { \
-        brrut::TestCounter::GetInstance().IncreaseAllTest(); \
+        brrut::UnitTestCounter::GetInstance().IncreaseAllTest(); \
         BRR_LOGI("success ("#EXPRESSION")"); \
     } \
     else \
     { \
-        brrut::TestCounter::GetInstance().IncreaseFailedTest(); \
+        brrut::UnitTestCounter::GetInstance().IncreaseFailedTest(); \
         BRR_LOGE("failed ("#EXPRESSION")"); \
     } \
 } while(0);
@@ -98,15 +98,15 @@ do { \
 do { \
     if (EXPRESSION) \
     { \
-        brrut::TestCounter::GetInstance().IncreaseAllTest(); \
+        brrut::UnitTestCounter::GetInstance().IncreaseAllTest(); \
         BRR_LOGI("success ("#EXPRESSION")"); \
     } \
     else \
     { \
-        brrut::TestCounter::GetInstance().IncreaseFailedTest(); \
+        brrut::UnitTestCounter::GetInstance().IncreaseFailedTest(); \
         BRR_LOGE("failed ("#EXPRESSION")"); \
         BRR_LOGI("exit with status 1"); \
-        brrut::TestCounter::GetInstance().PrintResult(); \
+        brrut::UnitTestCounter::GetInstance().PrintResult(); \
         exit(1); \
     } \
 } while(0);

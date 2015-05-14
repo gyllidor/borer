@@ -11,13 +11,12 @@
 
 // project
 #include "BrrThreadBase.h"
-#include "BrrLogger.h"
 #include "BrrTypes.h"
 #include "BrrMemory.h"
 
 // system
-#include "string.h"
-#include "unistd.h"
+#include <string.h>
+#include <unistd.h>
 
 //! ************************************************************************************************
 //! @brief constants
@@ -69,8 +68,8 @@ struct TestSample2 : public brr::ThreadBase
 {
     void* ThreadMethod()
     {
-        uint threeSeconds = 15;
-        while (ThreadBase::IsRunning() && threeSeconds--)
+        uint sleepCounter = 20;
+        while (ThreadBase::IsRunning() && sleepCounter--)
         {
             brr::USleep(brr::sc_secondInUs/5);
             ThreadBase::CancelationPoint();
@@ -142,10 +141,10 @@ void brrut::TestThreadBase::TestCancel()
     BRRUT_ASSERT(thread.Run());
 
     const time_t startTime = brr::GetTime();
-    BRRUT_ASSERT(startTime != sc_timeFailed)
+    BRRUT_ASSERT(startTime != sc_timeFailed);
     BRRUT_ASSERT(thread.Cancel());
     BRRUT_ASSERT(thread.Join());
     const time_t finishTime = brr::GetTime();
-    BRRUT_ASSERT(finishTime != sc_timeFailed)
-    BRRUT_ASSERT((finishTime - startTime) <=1 );
+    BRRUT_ASSERT(finishTime != sc_timeFailed);
+    BRRUT_ASSERT((finishTime - startTime) <= 1);
 }
