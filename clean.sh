@@ -1,3 +1,3 @@
 
 #! /bin/bash
-rm -rf ./build ./objects
+rm -rf ./build ./objects ./CMakeLists.txt.user
