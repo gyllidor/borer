@@ -66,7 +66,7 @@ brr::ReadLockGuard::ReadLockGuard(RWLock* pRWLock)
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-brr::ReadLockGuard::ReadLockGuard(RWLock *pRWLock, const std::string &c_className)
+brr::ReadLockGuard::ReadLockGuard(RWLock* pRWLock, const std::string& c_className)
     : Base(c_className)
     , m_pRWLock(pRWLock)
 {

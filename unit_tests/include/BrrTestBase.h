@@ -96,7 +96,7 @@ private: // members
 }; // class TestRunner
 
 //! ************************************************************************************************
-//! @brief print name of test and then run test;
+//! @brief print name of test and then run test.
 //! ************************************************************************************************
 #define BRRUT_ADD_TEST(TEST_NAME) \
 do { \
@@ -105,7 +105,7 @@ do { \
 } while(0);
 
 //! ************************************************************************************************
-//! @brief check EXPRESSION and print message success or failed;
+//! @brief check EXPRESSION and print message success or failed.
 //! ************************************************************************************************
 #define BRRUT_ASSERT(EXPRESSION) \
 do { \
@@ -122,7 +122,24 @@ do { \
 } while(0);
 
 //! ************************************************************************************************
-//! @brief check EXPRESSION and print message success or failed. If failed then exit from app;
+//! @brief check EXPRESSION and print message success or failed and MSG.
+//! ************************************************************************************************
+#define BRRUT_ASSERT_MSG(EXPRESSION, MSG) \
+do { \
+    if (EXPRESSION) \
+    { \
+        brrut::UnitTestCounter::GetInstance().IncreaseAllTest(); \
+        BRR_LOGI("success ("#EXPRESSION") %s", MSG); \
+    } \
+    else \
+    { \
+        brrut::UnitTestCounter::GetInstance().IncreaseFailedTest(); \
+        BRR_LOGE("failed ("#EXPRESSION") %s", MSG); \
+    } \
+} while(0);
+
+//! ************************************************************************************************
+//! @brief check EXPRESSION and print message success or failed. If failed then exit from app.
 //! ************************************************************************************************
 #define BRRUT_ASSERT_EXIT(EXPRESSION) \
 do { \
@@ -135,6 +152,27 @@ do { \
     { \
         brrut::UnitTestCounter::GetInstance().IncreaseFailedTest(); \
         BRR_LOGE("failed ("#EXPRESSION")"); \
+        BRR_LOGI("exit with status 1"); \
+        brrut::UnitTestCounter::GetInstance().PrintResult(); \
+        exit(1); \
+    } \
+} while(0);
+
+//! ************************************************************************************************
+//! @brief check EXPRESSION and print message success or failed and MSG.
+//! @brief If failed then exit from application.
+//! ************************************************************************************************
+#define BRRUT_ASSERT_EXIT_MSG(EXPRESSION, MSG) \
+do { \
+    if (EXPRESSION) \
+    { \
+        brrut::UnitTestCounter::GetInstance().IncreaseAllTest(); \
+        BRR_LOGI("success ("#EXPRESSION") %s", MSG); \
+    } \
+    else \
+    { \
+        brrut::UnitTestCounter::GetInstance().IncreaseFailedTest(); \
+        BRR_LOGE("failed ("#EXPRESSION") %s", MSG); \
         BRR_LOGI("exit with status 1"); \
         brrut::UnitTestCounter::GetInstance().PrintResult(); \
         exit(1); \
