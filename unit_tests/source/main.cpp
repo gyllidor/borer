@@ -8,6 +8,7 @@
 // local
 #include "TestThreadBase.h"
 #include "TestPtrGuard.h"
+#include "TestRWLock.h"
 
 // project
 #include "BrrLogger.h"
@@ -27,24 +28,11 @@ int main()
     BRR_LOGE("test erro");
     BRR_LOGV("test verb");
 
-    //! @brief test for ASSERT
-    BRRUT_ASSERT(0==0);
+    brrut::TestRunner runner;
+    runner.AddTest(BRR_NEW_NOTHROW brrut::TestThreadBase);
+    runner.AddTest(BRR_NEW_NOTHROW brrut::TestPtrGuard);
+    runner.AddTest(BRR_NEW_NOTHROW brrut::TestRWLock);
 
-    //! @brief add test to pool
-    std::vector <brrut::TestBase*> poolTests;
-    poolTests.push_back(BRR_NEW_NOTHROW brrut::TestThreadBase);
-    poolTests.push_back(BRR_NEW_NOTHROW brrut::TestPtrGuard);
-
-    //! @brief run all tests
-    std::vector <brrut::TestBase*>::iterator itTest = poolTests.begin();
-    for (; itTest != poolTests.end(); ++itTest)
-        (*itTest)->Run();
-
-    //! @brief memory dealocation
-    for (itTest = poolTests.begin(); itTest != poolTests.end(); ++itTest)
-        BRR_DELETE (*itTest);
-
-    brrut::UnitTestCounter::GetInstance().PrintResult();
-
+    runner.Run();
     return 0;
 }

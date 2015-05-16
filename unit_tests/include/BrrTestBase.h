@@ -17,13 +17,13 @@
 #include <vector>
 
 //! ************************************************************************************************
-//! @brief namespace for unit test, brrut(borer unit test);
+//! @brief namespace for unit test, brrut(borer unit test).
 //! ************************************************************************************************
 namespace brrut
 {
 
 //! ************************************************************************************************
-//! @brief counters for test, number of all, failed and success tests;
+//! @brief counters for test, number of all, failed and success tests.
 //! ************************************************************************************************
 class UnitTestCounter
 {
@@ -49,7 +49,7 @@ private: // members
 }; // TestCounter
 
 //! ************************************************************************************************
-//! @brief base abstract class for unit tests;
+//! @brief base abstract class for unit tests.
 //! ************************************************************************************************
 class TestBase
 {
@@ -64,6 +64,36 @@ public: // methods
     virtual void Run() = 0;
 
 }; // class TestBase
+
+//! ************************************************************************************************
+//! @brief run pool of tests and print results.
+//! ************************************************************************************************
+class TestRunner : public TestBase
+{
+public: // methods
+    TestRunner() : m_poolTests() {}
+    ~TestRunner()
+    {
+        std::vector <TestBase*>::iterator itTest = m_poolTests.begin();
+        for (; itTest != m_poolTests.end(); ++itTest)
+            BRR_DELETE (*itTest);
+    }
+
+    void Run()
+    {
+        std::vector <brrut::TestBase*>::iterator itTest = m_poolTests.begin();
+        for (; itTest != m_poolTests.end(); ++itTest)
+            (*itTest)->Run();
+
+        UnitTestCounter::GetInstance().PrintResult();
+    }
+
+    void AddTest( TestBase* pTest ) { m_poolTests.push_back(pTest); }
+
+private: // members
+    std::vector <TestBase*> m_poolTests;
+
+}; // class TestRunner
 
 //! ************************************************************************************************
 //! @brief print name of test and then run test;
