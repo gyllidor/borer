@@ -14,6 +14,9 @@
 namespace brr
 {
 
+//! ************************************************************************************************
+//! @brief Base class for all classes in Borer lib.
+//! ************************************************************************************************
 class Base
 {
 public: // methods
@@ -24,7 +27,7 @@ public: // methods
     virtual const std::string& GetClassName() { return m_className; }
 
 protected: // members
-std::string m_className;
+    std::string m_className;
 
 }; // class BrrBase
 

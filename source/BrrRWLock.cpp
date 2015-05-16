@@ -64,13 +64,7 @@ bool brr::RWLock::ReadLock()
 bool brr::RWLock::TryReadLock()
 {
     const int c_result = pthread_rwlock_tryrdlock(&m_rwLock);
-    if ( c_result )
-    {
-        BRR_LOGE("pthread_rwlock_tryrdlock() failed, %s", StrErrno(c_result).c_str());
-        return false;
-    }
-
-    return true;
+    return ( c_result ) ? false : true;
 }
 
 //! ************************************************************************************************
@@ -94,13 +88,7 @@ bool brr::RWLock::WriteLock()
 bool brr::RWLock::TryWriteLock()
 {
     const int c_result = pthread_rwlock_trywrlock(&m_rwLock);
-    if ( c_result )
-    {
-        BRR_LOGE("pthread_rwlock_trywrlock() failed, %s", StrErrno(c_result).c_str());
-        return false;
-    }
-
-    return true;
+    return ( c_result ) ? false : true;
 }
 
 //! ************************************************************************************************

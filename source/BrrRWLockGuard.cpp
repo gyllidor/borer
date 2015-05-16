@@ -60,7 +60,7 @@ brr::ReadLockGuard::ReadLockGuard(RWLock* pRWLock)
     if (NULL == pRWLock)
         BRR_LOGE("NULL == pRWLock");
     else if (false == m_pRWLock->ReadLock())
-        BRR_LOGE("WriteLock() failed");
+        BRR_LOGE("ReadLock() failed");
 }
 
 //! ************************************************************************************************
@@ -73,7 +73,7 @@ brr::ReadLockGuard::ReadLockGuard(RWLock *pRWLock, const std::string &c_classNam
     if (NULL == pRWLock)
         BRR_LOGE("NULL == pRWLock");
     else if (false == m_pRWLock->ReadLock())
-        BRR_LOGE("WriteLock(%s) failed", Base::GetClassName().c_str());
+        BRR_LOGE("ReadLock(%s) failed", Base::GetClassName().c_str());
 }
 
 //! ************************************************************************************************

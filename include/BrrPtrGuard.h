@@ -20,7 +20,8 @@ namespace brr
 {
 
 //! ************************************************************************************************
-//! @brief object not copyable. In desctructor will be memory dealocation;
+//! @brief intent: hold pointer to some data and dealocation of data in destructor.
+//! @brief object not copyable. In desctructor will be memory dealocation.
 //! ************************************************************************************************
 template <typename Type>
 class PtrGuard : public Base
@@ -47,7 +48,7 @@ public: // methods
         m_pPointer = NULL;
     }
 
-    Type* Data() { return m_pPointer; }
+    Type* Data()             { return m_pPointer; }
     Type& operator*()  const { return *m_pPointer; }
     Type* operator->() const { return m_pPointer; }
 
@@ -57,8 +58,8 @@ protected: // members
 }; // class PtrGuard
 
 //! ************************************************************************************************
-//! @brief intent: hold and dealocation(similar to PtrHolder) array of pointers;
-//! @brief object not copyable. In desctructor will be memory dealocation;
+//! @brief intent: hold and dealocation(similar to PtrHolder) array of pointers.
+//! @brief object not copyable. In desctructor will be memory dealocation.
 //! ************************************************************************************************
 template <typename Type>
 class PtrArrayGuard : public PtrGuard <Type>

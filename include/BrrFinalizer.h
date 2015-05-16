@@ -12,7 +12,7 @@ namespace brr
 {
 
 //! ************************************************************************************************
-//! @brief  use this class for forbidance of inheritance;
+//! @brief  use this class for forbidance of inheritance.
 //! ************************************************************************************************
 template <typename Type>
 class Finalizer
@@ -26,14 +26,14 @@ class Finalizer
 } // namespace brr
 
 //! ************************************************************************************************
-//! @brief you can use this macros instead "public virtual brr::Finalizer <CLASS_NAME>";
+//! @brief you can use this macros instead "public virtual brr::Finalizer <CLASS_NAME>".
 //! ************************************************************************************************
 #define FINALIZE(CLASS_NAME) public virtual brr::Finalizer <CLASS_NAME>
 
 //! ************************************************************************************************
-//! @brief ATTENTION you must use virtual inheritance otherwise it will not work;
+//! @brief ATTENTION you must use virtual inheritance otherwise it will not work.
 //! @brief ATTENTION compilation error will occur when variable(with wrong inheritance)
-//! @brief will be declared;
+//! @brief will be declared.
 //! ************************************************************************************************
 /*
 class First : public virtual Finalizer <First>

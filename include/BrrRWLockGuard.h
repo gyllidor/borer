@@ -25,8 +25,22 @@ private: // blocked methods
     const WriteLockGuard& operator=(const WriteLockGuard& c_guard);
 
 public: // methods
+    //! ********************************************************************************************
+    //! @brief lock pRWLock for write (call WriteLock), if pRWLock is NULL print error and
+    //! @brief do nothing, if lock failed then print error.
+    //! ********************************************************************************************
     WriteLockGuard(RWLock* pRWLock);
+
+    //! ********************************************************************************************
+    //! @brief lock pRWLock for write (call WriteLock), if pRWLock is NULL  print error and
+    //! @brief do nothing, if lock failed then print error with c_className.
+    //! ********************************************************************************************
     WriteLockGuard(RWLock* pRWLock, const std::string& c_className);
+
+    //! ********************************************************************************************
+    //! @brief unlock pRWLock (call Unlock), if pRWLock is NULL print error and do nothing,
+    //! @brief if lock failed then print error and c_className if exist.
+    //! ********************************************************************************************
     ~WriteLockGuard();
 
 private: // members
@@ -44,8 +58,22 @@ private: // blocked methods
     const ReadLockGuard& operator=(const ReadLockGuard& c_guard);
 
 public: // methods
+    //! ********************************************************************************************
+    //! @brief lock pRWLock for read (call ReadLock), if pRWLock is NULL print error and do nothing,
+    //! @brief if lock failed then print error.
+    //! ********************************************************************************************
     ReadLockGuard(RWLock* pRWLock);
+
+    //! ********************************************************************************************
+    //! @brief lock pRWLock for read (call ReadLock), if pRWLock is NULL print error and do nothing,
+    //! @brief if lock failed then print error with c_className.
+    //! ********************************************************************************************
     ReadLockGuard(RWLock* pRWLock, const std::string& c_className);
+
+    //! ********************************************************************************************
+    //! @brief unlock pRWLock (call Unlock), if pRWLock is NULL print error and do nothing,
+    //! @brief if lock failed then print error and c_className if exist.
+    //! ********************************************************************************************
     ~ReadLockGuard();
 
 private: // members

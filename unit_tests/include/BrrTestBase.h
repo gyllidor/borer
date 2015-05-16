@@ -38,8 +38,8 @@ public: // methods
     int  IncreaseFailedTest()  { ++m_allTest; return ++m_failedTest; }
     void PrintResult()
     {
-        BRR_LOGI("### Test results: all %d | failed %d | success %d ###",
-                 m_allTest, m_failedTest, m_allTest-m_failedTest );
+        BRR_LOGI("### Test results: all %d | success %d | failed %d ###",
+                 m_allTest, m_allTest-m_failedTest, m_failedTest );
     }
 
 private: // members

@@ -19,14 +19,14 @@ namespace brr
 
 //! ************************************************************************************************
 //! @brief  Get description of system error, stored in errno or returned by soome function, for
-//! @brief  example pthread_cancel;
-//! @param  [in] error number (errno for example);
-//! @return description of system error;
+//! @brief  example pthread_cancel.
+//! @param  [in] error number (errno for example).
+//! @return description of system error.
 //! ************************************************************************************************
 std::string StrErrno( int error );
 
 //! ************************************************************************************************
-//! @brief  Get description of system error, stored in errno;
+//! @brief  Get description of system error, stored in errno.
 //! @return description of errno;
 //! ************************************************************************************************
 std::string StrErrno();
@@ -43,7 +43,7 @@ std::string StrErrno();
 #define BRR_FC_RESET    "\033[0m"
 
 //! ************************************************************************************************
-//! @brief cut file name from file path;
+//! @brief cut file name from file path.
 //! ************************************************************************************************
 #ifdef __FILE_NAME__
 #warning macros __FILE_NAME__ already defined, you should change macros name
@@ -52,7 +52,7 @@ std::string StrErrno();
 #endif // __FILE_NAME__
 
 //! ************************************************************************************************
-//! @brief prepare prefix for log message - [I][FILE_NAME][FUNCTION][LINE_NUMBER]${message};\n;
+//! @brief prepare prefix for log message - [I][FILE_NAME][FUNCTION][LINE_NUMBER]${message};\n.
 //! ************************************************************************************************
 #define PREPARE_FORMAT(prefix, format) \
 prefix "[%s][%s][%d]: " BRR_FC_RESET format ";\n", __FILE_NAME__, __FUNCTION__, __LINE__
@@ -60,7 +60,7 @@ prefix "[%s][%s][%d]: " BRR_FC_RESET format ";\n", __FILE_NAME__, __FUNCTION__, 
 #ifdef DEBUG_BUILD
 
 //! ************************************************************************************************
-//! @brief Print message to stderr with helpfull tags;
+//! @brief Print message to stderr with helpfull tags.
 //! ************************************************************************************************
 #define BRR_LOGI(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_CYAN   "[I]", format), ##arg)
 #define BRR_LOGW(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_YELLOW "[W]", format), ##arg)
@@ -74,9 +74,9 @@ prefix "[%s][%s][%d]: " BRR_FC_RESET format ";\n", __FILE_NAME__, __FUNCTION__, 
 
 #else // DEBUG_BUILD
 
-#define BRR_LOGI(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_CYAN   "[I]", format), ##arg)
-#define BRR_LOGW(format, arg...)
-#define BRR_LOGE(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_RED    "[E]", format), ##arg)
+#define BRR_LOGI(format, arg...) fprintf(stdout, "[I]" format, ##arg)
+#define BRR_LOGW(format, arg...) fprintf(stdout, "[W]" format, ##arg)
+#define BRR_LOGE(format, arg...) fprintf(stderr, "[E]" format, ##arg)
 #define BRR_LOGV(format, arg...)
 
 #endif // DEBUG_BUILD
