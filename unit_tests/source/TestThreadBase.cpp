@@ -124,8 +124,9 @@ void brrut::TestThreadBase::TestNotifyToStop()
     BRRUT_ASSERT(thread.Run());
 
     const time_t startTime = brr::GetTime();
-    BRRUT_ASSERT(startTime != sc_timeFailed)
-    BRRUT_ASSERT(thread.NotifyToStop());
+    BRRUT_ASSERT(startTime != sc_timeFailed);
+
+    thread.NotifyToStop();
     BRRUT_ASSERT(thread.Join());
     const time_t finishTime = brr::GetTime();
     BRRUT_ASSERT(finishTime != sc_timeFailed)

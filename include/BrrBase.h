@@ -20,7 +20,7 @@ namespace brr
 class Base
 {
 public: // methods
-    Base() : m_className("<empty>") {}
+    Base() : m_className() {}
     Base(const std::string& className) : m_className(className) {}
     virtual ~Base() {}
 

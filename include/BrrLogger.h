@@ -60,24 +60,38 @@ prefix "[%s][%s][%d]: " BRR_FC_RESET format ";\n", __FILE_NAME__, __FUNCTION__, 
 #ifdef DEBUG_BUILD
 
 //! ************************************************************************************************
-//! @brief Print message to stderr with helpfull tags.
+//! @brief Print message to stderr with helpfull tags (example [I][main.cpp][main][26]: test info;).
 //! ************************************************************************************************
 #define BRR_LOGI(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_CYAN   "[I]", format), ##arg)
 #define BRR_LOGW(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_YELLOW "[W]", format), ##arg)
 #define BRR_LOGE(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_RED    "[E]", format), ##arg)
 
+//! ************************************************************************************************
+//! @brief Print message to stderr without formating (_WF).
+//! ************************************************************************************************
+#define BRR_LOGI_WF(format, arg...) fprintf(stderr, format, ##arg)
+#define BRR_LOGW_WF(format, arg...) fprintf(stderr, format, ##arg)
+#define BRR_LOGE_WF(format, arg...) fprintf(stderr, format, ##arg)
+
 #ifdef VERBOSE_LOGGER
 #define BRR_LOGV(format, arg...) fprintf(stderr, PREPARE_FORMAT(BRR_FC_WHITE  "[V]", format), ##arg)
+#define BRR_LOGV_WF(format, arg...) fprintf(stderr, format, ##arg)
 #else
 #define BRR_LOGV
+#define BRR_LOGV_WF
 #endif // VERBOSE_LOGGER
 
 #else // DEBUG_BUILD
 
-#define BRR_LOGI(format, arg...) fprintf(stdout, "[I]" format, ##arg)
-#define BRR_LOGW(format, arg...) fprintf(stdout, "[W]" format, ##arg)
-#define BRR_LOGE(format, arg...) fprintf(stderr, "[E]" format, ##arg)
+#define BRR_LOGI(format, arg...) fprintf(stdout, "[I] " format, ##arg)
+#define BRR_LOGW(format, arg...) fprintf(stdout, "[W] " format, ##arg)
+#define BRR_LOGE(format, arg...) fprintf(stderr, "[E] " format, ##arg)
 #define BRR_LOGV(format, arg...)
+
+#define BRR_LOGI_WF(format, arg...) fprintf(stderr, format, ##arg)
+#define BRR_LOGW_WF(format, arg...) fprintf(stderr, format, ##arg)
+#define BRR_LOGE_WF(format, arg...) fprintf(stderr, format, ##arg)
+#define BRR_LOGV_WF
 
 #endif // DEBUG_BUILD
 

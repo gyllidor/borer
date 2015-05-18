@@ -15,14 +15,17 @@
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-void *brr::ThreadBase::ThreadFunction(void *pContext)
+void* brr::ThreadBase::ThreadFunction(void *pContext)
 {
     brr::ThreadBase* pThread = static_cast < brr::ThreadBase* > (pContext);
-    if ( NULL == pThread )
+    if (NULL == pThread)
     {
         BRR_LOGE("static_cast failed");
         return NULL;
     }
+
+    //! @note remove this when attr will be ready.
+    pThread->SetCancelState(PTHREAD_CANCEL_DISABLE);
 
     void* pResult = pThread->ThreadMethod();
     pThread->NotifyToStop();
@@ -36,7 +39,7 @@ brr::ThreadBase::ThreadBase()
     : Base()
     , m_thread(0)
     , m_isRunning(false)
-    , m_rwLock()
+    , m_rwLockIsRunning()
 {
 }
 
@@ -47,7 +50,7 @@ brr::ThreadBase::ThreadBase(const std::string &threadName)
     : Base(threadName)
     , m_thread(0)
     , m_isRunning(false)
-    , m_rwLock(threadName + "RwLock")
+    , m_rwLockIsRunning(threadName + "RwLock")
 {
 }
 
@@ -56,7 +59,6 @@ brr::ThreadBase::ThreadBase(const std::string &threadName)
 //! ************************************************************************************************
 brr::ThreadBase::~ThreadBase()
 {
-
 }
 
 //! ************************************************************************************************
@@ -64,8 +66,14 @@ brr::ThreadBase::~ThreadBase()
 //! ************************************************************************************************
 bool brr::ThreadBase::Run()
 {
-    if (false == SetCancelState(PTHREAD_CANCEL_DISABLE))
-        BRR_LOGW( "Run(): failed to set state PTHREAD_CANCEL_DISABLE" );
+    {
+        ReadLockGuard guard(&m_rwLockIsRunning);
+        if (m_isRunning)
+        {
+            BRR_LOGW("Thread(%s) is already running", Base::GetClassName().c_str());
+            return false;
+        }
+    }
 
     const int c_result = pthread_create(&m_thread, NULL, ThreadFunction, this);
     if (c_result)
@@ -74,7 +82,7 @@ bool brr::ThreadBase::Run()
         return false;
     }
 
-    WriteLockGuard guard(&m_rwLock);
+    WriteLockGuard guard(&m_rwLockIsRunning);
     return (m_isRunning = true);
 }
 
@@ -83,7 +91,7 @@ bool brr::ThreadBase::Run()
 //! ************************************************************************************************
 bool brr::ThreadBase::IsRunning()
 {
-    ReadLockGuard guard(&m_rwLock);
+    ReadLockGuard guard(&m_rwLockIsRunning);
     return m_isRunning;
 }
 
@@ -113,16 +121,6 @@ bool brr::ThreadBase::Join(void** pResult)
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-bool brr::ThreadBase::NotifyToStop()
-{
-    WriteLockGuard guard(&m_rwLock);
-    m_isRunning = false;
-    return true;
-}
-
-//! ************************************************************************************************
-//!
-//! ************************************************************************************************
 bool brr::ThreadBase::Cancel()
 {
     const int c_result = pthread_cancel(m_thread);
@@ -138,9 +136,18 @@ bool brr::ThreadBase::Cancel()
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-bool brr::ThreadBase::SetCancelState(int type)
+void brr::ThreadBase::NotifyToStop()
 {
-    const int c_result = pthread_setcancelstate(type, NULL);
+    WriteLockGuard guard(&m_rwLockIsRunning);
+    m_isRunning = false;
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
+bool brr::ThreadBase::SetCancelState(int state)
+{
+    const int c_result = pthread_setcancelstate(state, NULL);
     if (c_result)
     {
         BRR_LOGE("pthread_setcancelstate() failed, %s", StrErrno(c_result).c_str());
@@ -153,10 +160,17 @@ bool brr::ThreadBase::SetCancelState(int type)
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
+#include "BrrTime.h"
 bool brr::ThreadBase::CancelationPoint()
 {
-    if (false == SetCancelState(PTHREAD_CANCEL_ENABLE) ||
-        false == SetCancelState(PTHREAD_CANCEL_DISABLE))
+    if (false == SetCancelState(PTHREAD_CANCEL_ENABLE))
+        return false;
+
+    //! @brief Just give OS time to handle cancel request.
+    //! @brief If cancel request was sent then sleep value does not metter because
+    //! @brief it will be terminated.
+    USleep(sc_secondInUs/1000);
+    if (false == SetCancelState(PTHREAD_CANCEL_DISABLE))
         return false;
 
     return true;
