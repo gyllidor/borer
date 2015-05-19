@@ -1,6 +1,6 @@
 //! ************************************************************************************************
 //! @file   BrrMemory.h
-//! @brief  defines mor alocator and delete;
+//! @brief  defines for new and delete;
 //! @author gyllidor (gyllidor@ukr.net)
 //! @date   26 Apr 2015
 //! @link   https://github.com/gyllidor/borer

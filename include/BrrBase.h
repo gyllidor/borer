@@ -5,8 +5,8 @@
 //! @date   24 Apr 2015
 //! @link   https://github.com/gyllidor/borer
 //! ************************************************************************************************
-#ifndef BASE_H
-#define BASE_H
+#ifndef BRR_BASE_H
+#define BRR_BASE_H
 
 // system
 #include <string>
@@ -33,4 +33,4 @@ protected: // members
 
 } // namespace brr
 
-#endif // BASE_H
+#endif // BRR_BASE_H
