@@ -11,6 +11,7 @@
 #include "BrrThreadBase.h"
 #include "BrrLogger.h"
 #include "BrrRWLockGuard.h"
+#include "BrrTime.h"
 
 //! ************************************************************************************************
 //!
@@ -160,15 +161,29 @@ bool brr::ThreadBase::SetCancelState(int state)
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
-#include "BrrTime.h"
+bool brr::ThreadBase::SetCancelType(int type)
+{
+    const int c_result = pthread_setcanceltype(type, NULL);
+    if (c_result)
+    {
+        BRR_LOGE("pthread_setcanceltype() failed, %s", StrErrno(c_result).c_str());
+        return false;
+    }
+
+    return true;
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
 bool brr::ThreadBase::CancelationPoint()
 {
     if (false == SetCancelState(PTHREAD_CANCEL_ENABLE))
         return false;
 
-    //! @brief Just give OS time to handle cancel request.
-    //! @brief If cancel request was sent then sleep value does not metter because
-    //! @brief it will be terminated.
+    //! Just give OS time to handle cancel request.
+    //! If cancel request was sent then sleep value does not metter because
+    //! it will be terminated.
     USleep(sc_secondInUs/1000);
     if (false == SetCancelState(PTHREAD_CANCEL_DISABLE))
         return false;

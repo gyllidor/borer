@@ -85,8 +85,6 @@ public: // methods
     //! ********************************************************************************************
     virtual bool Join(void** pResult);
 
-    //! @todo add to run SetCancelType (implement this)
-
     //! ********************************************************************************************
     //! @brief  The Cancel() function sends a cancellation request to the thread m_thread.
     //! @brief  Whether and when the target thread reacts to the cancellation request depends on
@@ -132,9 +130,24 @@ protected: // methods
     //! @brief  2) PTHREAD_CANCEL_DISABLE - the thread is not cancelable. If a cancellation request
     //! @brief  is received, it is blocked until cancelability is enabled. This is the default
     //! @brief  cancelability state in all new threads (for ThreadBase notwithstanding pthread).
-    //! @return On success, Cancel() returns true; on error, it returns false and prints errno.
+    //! @return On success, SetCancelState() returns true; on error, it returns false and
+    //!         prints errno.
     //! ********************************************************************************************
     virtual bool SetCancelState(int state);
+
+    //! ********************************************************************************************
+    //! @brief  The SetCancelType() sets the cancelability type of the calling thread to the value
+    //! @brief  given in type. The type argument must have one of the following values:
+    //! @brief  1) PTHREAD_CANCEL_DEFERRED - A cancellation request is deferred until the thread
+    //! @brief  next calls a function that is a cancellation point (see pthreads(7)). This is the
+    //! @brief  default cancelability type in all new threads, including the initial thread.
+    //! @brief  2) PTHREAD_CANCEL_ASYNCHRONOUS - The thread can be canceled at any time.
+    //! @brief  (Typically, it will be canceled immediately upon receiving a cancellation
+    //! @brief  request, but the system doesn't guarantee this.)
+    //! @return On success, SetCancelType() returns true; on error, it returns false
+    //!         and prints errno.
+    //! ********************************************************************************************
+    virtual bool SetCancelType(int type);
 
     //! ********************************************************************************************
     //! @brief  Call SetCancelState(PTHREAD_CANCEL_ENABLE), USleep(second/1000) then
