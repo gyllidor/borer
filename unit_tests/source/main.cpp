@@ -9,6 +9,7 @@
 #include "TestThreadBase.h"
 #include "TestPtrGuard.h"
 #include "TestRWLock.h"
+#include "TestRWLockGuard.h"
 
 // project
 #include "BrrLogger.h"
@@ -32,6 +33,7 @@ int main()
     runner.AddTest(BRR_NEW_NOTHROW brrut::TestThreadBase);
     runner.AddTest(BRR_NEW_NOTHROW brrut::TestPtrGuard);
     runner.AddTest(BRR_NEW_NOTHROW brrut::TestRWLock);
+    runner.AddTest(BRR_NEW_NOTHROW brrut::TestRWLockGuard);
 
     runner.Run();
     return 0;
