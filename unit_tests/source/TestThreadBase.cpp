@@ -39,7 +39,7 @@ struct TestSample : public brr::ThreadBase
         , m_timeOut(timeOut)
     {}
 
-    void* ThreadMethod()
+    void* StartRoutine()
     {
         sleep(m_timeOut);
 
@@ -66,7 +66,7 @@ private:
 //! ************************************************************************************************
 struct TestSample2 : public brr::ThreadBase
 {
-    void* ThreadMethod()
+    void* StartRoutine()
     {
         uint sleepCounter = 20;
         while (ThreadBase::IsRunning() && sleepCounter--)

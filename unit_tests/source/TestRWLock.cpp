@@ -20,7 +20,7 @@ struct ThreadWriteLock : public brr::ThreadBase
 {
     ThreadWriteLock(brr::RWLock* pRWLock) : m_pRWLock(pRWLock) {}
 
-    void* ThreadMethod()
+    void* StartRoutine()
     {
         m_pRWLock->WriteLock();
         brr::Sleep(brr::sc_second);
@@ -40,7 +40,7 @@ struct ThreadReadLock : public brr::ThreadBase
 {
     ThreadReadLock(brr::RWLock* pRWLock) : m_pRWLock(pRWLock) {}
 
-    void* ThreadMethod()
+    void* StartRoutine()
     {
         m_pRWLock->ReadLock();
         brr::Sleep(brr::sc_second);

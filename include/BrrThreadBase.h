@@ -25,11 +25,13 @@ class ThreadBase : public Base
 public: // methods
     //! ********************************************************************************************
     //! @brief default contructor, just set default value for members.
+    //! By default cancel state is PTHREAD_CANCEL_DISABLE, cancel type PTHREAD_CANCEL_DEFERRED
     //! ********************************************************************************************
     ThreadBase();
 
     //! ********************************************************************************************
     //! @brief contructor.
+    //! By default cancel state is PTHREAD_CANCEL_DISABLE, cancel type PTHREAD_CANCEL_DEFERRED
     //! @param threadName - set thread name for object.
     //! ********************************************************************************************
     ThreadBase(const std::string& threadName);
@@ -51,7 +53,7 @@ public: // methods
     //! @brief  3) It is canceled Cancel() (see pthread_cancel()).
     //! @brief  4) Any of the threads in the process calls exit(), or the main thread performs a
     //! @brief  return from main(). This causes the termination of all threads in the process.
-    //! @brief  for more information man pthread_create().
+    //! @brief  man pthread_create.
     //! @return false if thread is already running or pthread_create() failed (also errno printed)
     //!         otherwise true.
     //! ********************************************************************************************
@@ -67,7 +69,7 @@ public: // methods
     //! @brief  Join() - join with a terminated thread. The Join() function waits for the thread to
     //! @brief  terminate. If that thread has already terminated, then Join() returns immediately.
     //! @brief  the thread must be joinable.
-    //! @brief  For more information man pthread_join.
+    //! @brief  man pthread_join.
     //! @return On success, Join() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Join();
@@ -80,7 +82,7 @@ public: // methods
     //! @brief  simultaneously try to join with the same thread, the results are undefined.
     //! @brief  If the thread calling Join() is canceled, then the target thread will remain
     //! @brief  joinable (i.e., it will not be detached).
-    //! @brief  For more information man pthread_join.
+    //! @brief  man pthread_join.
     //! @return On success, Join() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Join(void** pResult);
@@ -103,7 +105,7 @@ public: // methods
     //! @brief  at any time (usually immediately, but the system does not guarantee this).
     //! @brief  Deferred cancelability means that cancellation will be delayed until the thread next
     //! @brief  calls a function that is a cancellation point.
-    //! @brief  For more information man pthread_cancel.
+    //! @brief  man pthread_cancel.
     //! @return On success, Cancel() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Cancel();
@@ -115,13 +117,37 @@ public: // methods
     //! ********************************************************************************************
     virtual void NotifyToStop();
 
+    //! ********************************************************************************************
+    //! @brief The Detach() method marks the thread identified by thread as detached. When a
+    //! detached thread terminates, its resources are automatically released back to the system
+    //! without the need for another thread to join with the terminated thread. Attempting to
+    //! detach an already detached thread results in unspecified behavior.
+    //! man pthrad_detach.
+    //! @return On success true; on error, it returns false and prints errno.
+    //! ********************************************************************************************
+    virtual bool Detach();
+
+    //! ********************************************************************************************
+    //! @brief The Equal() method compares two thread identifiers.
+    //! man pthread_equal.
+    //! @return If the two thread IDs are equal, Equal() returns true; otherwise, it returns false.
+    //! ********************************************************************************************
+    virtual bool Equal(const ThreadBase& thread);
+
+    //! ********************************************************************************************
+    //! @brief The Self() method returns the ID of the calling thread. This is the same value that
+    //! is returned in *thread in the pthread_create(3) call that created this thread.
+    //! man pthread_self.
+    //! @return thread ID.
+    virtual pthread_t Self();
+
 protected: // methods
     //! ********************************************************************************************
     //! @brief  Implement this method in derived class. Call Run() and ThreadMethod will work in
     //! @brief  separated thread.
     //! @return returned data(must be on the heap) you can get from Join(**pResult).
     //! ********************************************************************************************
-    virtual void* ThreadMethod() = 0;
+    virtual void* StartRoutine() = 0;
 
     //! ********************************************************************************************
     //! @brief  The SetCancelState() sets the cancelability state of the calling thread to the
@@ -130,6 +156,7 @@ protected: // methods
     //! @brief  2) PTHREAD_CANCEL_DISABLE - the thread is not cancelable. If a cancellation request
     //! @brief  is received, it is blocked until cancelability is enabled. This is the default
     //! @brief  cancelability state in all new threads (for ThreadBase notwithstanding pthread).
+    //! man pthread_setcancelstate.
     //! @return On success, SetCancelState() returns true; on error, it returns false and
     //!         prints errno.
     //! ********************************************************************************************
@@ -144,6 +171,7 @@ protected: // methods
     //! @brief  2) PTHREAD_CANCEL_ASYNCHRONOUS - The thread can be canceled at any time.
     //! @brief  (Typically, it will be canceled immediately upon receiving a cancellation
     //! @brief  request, but the system doesn't guarantee this.)
+    //! man pthread_setcanceltype.
     //! @return On success, SetCancelType() returns true; on error, it returns false
     //!         and prints errno.
     //! ********************************************************************************************
@@ -161,6 +189,14 @@ protected: // methods
     //! @return On success, Cancel() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool CancelationPoint();
+
+    //! ********************************************************************************************
+    //! @brief The Exit() method terminates the calling thread and returns a value via pRetVal
+    //! that (if the thread is joinable) is available to another thread in the same process that
+    //! calls Join(). Call this method in StartRoutine() for exit from thread.
+    //! man pthread_exit.
+    //! ********************************************************************************************
+    virtual void Exit(void* pRetVal);
 
 protected: // methods
     static void* ThreadFunction(void* pContext);

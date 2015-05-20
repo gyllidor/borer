@@ -28,7 +28,7 @@ void* brr::ThreadBase::ThreadFunction(void *pContext)
     //! @note remove this when attr will be ready.
     pThread->SetCancelState(PTHREAD_CANCEL_DISABLE);
 
-    void* pResult = pThread->ThreadMethod();
+    void* pResult = pThread->StartRoutine();
     pThread->NotifyToStop();
     return pResult;
 }
@@ -137,6 +137,37 @@ bool brr::ThreadBase::Cancel()
 //! ************************************************************************************************
 //!
 //! ************************************************************************************************
+bool brr::ThreadBase::Detach()
+{
+    const int c_result = pthread_detach(m_thread);
+    if (c_result)
+    {
+        BRR_LOGE("pthread_detach() failed, %s", StrErrno(c_result).c_str());
+        return false;
+    }
+
+    return true;
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
+bool brr::ThreadBase::Equal(const brr::ThreadBase &thread)
+{
+    return pthread_equal(m_thread, thread.m_thread);
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
+pthread_t brr::ThreadBase::Self()
+{
+    return pthread_self();
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
 void brr::ThreadBase::NotifyToStop()
 {
     WriteLockGuard guard(&m_rwLockIsRunning);
@@ -189,4 +220,12 @@ bool brr::ThreadBase::CancelationPoint()
         return false;
 
     return true;
+}
+
+//! ************************************************************************************************
+//!
+//! ************************************************************************************************
+void brr::ThreadBase::Exit(void *pRetVal)
+{
+    pthread_exit(pRetVal);
 }
