@@ -13,17 +13,17 @@ namespace brr
 
 //! ************************************************************************************************
 //! @brief  use this class for forbidance of inheritance.
-//! @brief ATTENTION you must use virtual inheritance otherwise it will not work.
-//! @brief ATTENTION compilation error will occur when variable(with wrong inheritance)
-//! @brief will be declared.
-//! @brief example:
+//! ATTENTION you must use virtual inheritance otherwise it will not work.
+//! ATTENTION compilation error will occur when variable(with wrong inheritance)
+//! will be declared.
+//! example:
 //!   class First : public virtual Finalizer <First>
-//!    {
-//!    };
+//!   {
+//!   };
 //!
-//!    class Second : public First
-//!    {
-//!    };
+//!   class Second : public First
+//!   {
+//!   };
 //!
 //!    Second sec; // compilation error will occur;
 template <typename Type>

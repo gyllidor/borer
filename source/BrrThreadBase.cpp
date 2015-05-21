@@ -1,5 +1,5 @@
 //! ************************************************************************************************
-//! @file   ThreadBase.h
+//! @file   BrrThreadBase.h
 //! @brief  abstract class wrapper for pthread. For more information man pthread*.
 //! @brief  Just inherit this class, implement one method (ThreadFunction) and
 //! @brief  run this method in separeted thread.

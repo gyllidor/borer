@@ -10,7 +10,7 @@
 
 //! ************************************************************************************************
 //! @brief This macroses are more obviously than clear new/delete and will help you in desision
-//! @brief to call delete or delete[] and etc.
+//! to call delete or delete[] and etc.
 //! ************************************************************************************************
 #define BRR_NEW                 new
 #define BRR_NEW_ARRAY           new

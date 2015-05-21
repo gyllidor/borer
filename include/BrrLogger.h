@@ -19,7 +19,7 @@ namespace brr
 
 //! ************************************************************************************************
 //! @brief  Get description of system error, stored in errno or returned by soome function, for
-//! @brief  example pthread_cancel.
+//! example pthread_cancel.
 //! @param  [in] error number (errno for example).
 //! @return description of system error.
 //! ************************************************************************************************
