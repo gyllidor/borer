@@ -42,20 +42,19 @@ public: // methods
     virtual ~ThreadBase();
 
     //! ********************************************************************************************
-    //! @brief  create thread and run void* ThreadMethod(). By default cancel state is
-    //! @brief  PTHREAD_CANCEL_DISABLE. If pthread_cancel_state(PTHREAD_CANCEL_DISABLE) failed
-    //! @brief  then warning message will be printed.
-    //! @brief  The new thread terminates in one of the following ways:
-    //! @brief  1) It calls pthread_exit(), specifying an exit status value that is available to
-    //! @brief  another thread in the same process that calls pthread_join(3).
-    //! @brief  2) It returns from ThreadMethod(). This is equivalent to calling pthread_exit()
-    //! @brief  with the value supplied in the return statement.
-    //! @brief  3) It is canceled Cancel() (see pthread_cancel()).
-    //! @brief  4) Any of the threads in the process calls exit(), or the main thread performs a
-    //! @brief  return from main(). This causes the termination of all threads in the process.
-    //! @brief  man pthread_create.
+    //! @brief create thread and run void* ThreadMethod(). By default cancel state is
+    //! PTHREAD_CANCEL_DISABLE. If pthread_cancel_state(PTHREAD_CANCEL_DISABLE) failed then warning
+    //! message will be printed. The new thread terminates in one of the following ways:
+    //! 1) It calls pthread_exit(), specifying an exit status value that is available to another
+    //! thread in the same process that calls pthread_join(3).
+    //! 2) It returns from ThreadMethod(). This is equivalent to calling pthread_exit() with the
+    //! value supplied in the return statement.
+    //! 3) It is canceled Cancel() (see pthread_cancel()).
+    //! 4) Any of the threads in the process calls exit(), or the main thread performs a return from
+    //! main(). This causes the termination of all threads in the process.
+    //! man pthread_create.
     //! @return false if thread is already running or pthread_create() failed (also errno printed)
-    //!         otherwise true.
+    //! otherwise true.
     //! ********************************************************************************************
     virtual bool Run();
 
@@ -66,54 +65,49 @@ public: // methods
     virtual bool IsRunning();
 
     //! ********************************************************************************************
-    //! @brief  Join() - join with a terminated thread. The Join() function waits for the thread to
-    //! @brief  terminate. If that thread has already terminated, then Join() returns immediately.
-    //! @brief  the thread must be joinable.
-    //! @brief  man pthread_join.
+    //! @brief Join() - join with a terminated thread. The Join() function waits for the thread to
+    //! terminate. If that thread has already terminated, then Join() returns immediately. The
+    //! thread must be joinable.
+    //! man pthread_join.
     //! @return On success, Join() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Join();
 
     //! ********************************************************************************************
     //! @brief  Similar to Join() but if retval is not NULL, then Join() copies the exit status of
-    //! @brief  the target thread (i.e., the value that the target thread supplied to
-    //! @brief  pthread_exit()) into the location pointed to by *pResult. If the target thread was
-    //! @brief  canceled, then PTHREAD_CANCELED is placed in *pResult. If multiple threads
-    //! @brief  simultaneously try to join with the same thread, the results are undefined.
-    //! @brief  If the thread calling Join() is canceled, then the target thread will remain
-    //! @brief  joinable (i.e., it will not be detached).
-    //! @brief  man pthread_join.
+    //! the target thread (i.e., the value that the target thread supplied to  pthread_exit()) into
+    //! the location pointed to by *pResult. If the target thread was canceled, then
+    //! PTHREAD_CANCELED is placed in *pResult. If multiple threads simultaneously try to join with
+    //! the same thread, the results are undefined. If the thread calling Join() is canceled, then
+    //! the target thread will remain joinable (i.e., it will not be detached).
+    //! man pthread_join.
     //! @return On success, Join() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Join(void** pResult);
 
     //! ********************************************************************************************
-    //! @brief  The Cancel() function sends a cancellation request to the thread m_thread.
-    //! @brief  Whether and when the target thread reacts to the cancellation request depends on
-    //! @brief  two attributes that are under the control of that thread: its cancelability state
-    //! @brief  and type.
-    //! @brief  A thread's cancelability state, determined by SetCancelState(3), can be enabled
-    //! @brief  or disabled (NOTE/ATTENTION: the default for new threads for ThreadBase
-    //! @brief  notwithstanding pthread).
-    //! @brief  If a thread has disabled cancellation,then a cancellation request remains queued
-    //! @brief  until the thread enables cancellation.
-    //! @brief  If a thread has enabled cancellation, then its cancelability type determines when
-    //! @brief  cancellation occurs.
-    //! @brief  A thread's cancellation type, determined by SetCancelType()
-    //! @brief  (man pthread_setcanceltype), may be either asynchronous or deferred (the default for
-    //! @brief  new threads). Asynchronous cancelability means that the thread can be canceled
-    //! @brief  at any time (usually immediately, but the system does not guarantee this).
-    //! @brief  Deferred cancelability means that cancellation will be delayed until the thread next
-    //! @brief  calls a function that is a cancellation point.
-    //! @brief  man pthread_cancel.
+    //! @brief The Cancel() function sends a cancellation request to the thread m_thread. Whether
+    //! and when the target thread reacts to the cancellation request depends on two attributes that
+    //! are under the control of that thread: its cancelability state and type. A thread's
+    //! cancelability state, determined by SetCancelState(3), can be enabled or disabled
+    //! (NOTE/ATTENTION: the default for new threads for ThreadBase  notwithstanding pthread). If a
+    //! thread has disabled cancellation,then a cancellation request remains queued until the thread
+    //! enables cancellation. If a thread has enabled cancellation, then its cancelability type
+    //! determines when cancellation occurs. A thread's cancellation type, determined by
+    //! SetCancelType() (man pthread_setcanceltype), may be either asynchronous or deferred
+    //! (the default for new threads). Asynchronous cancelability means that the thread can be
+    //! canceled at any time (usually immediately, but the system does not guarantee this).
+    //! Deferred cancelability means that cancellation will be delayed until the thread next calls a
+    //! function that is a cancellation point.
+    //! man pthread_cancel.
     //! @return On success, Cancel() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool Cancel();
 
     //! ********************************************************************************************
-    //! @brief NotifyToStop() - just set m_isRunning to false (method is thread safe).
-    //! @brief In case IsRunning() using in ThreadMethod() to check should thread to stop
-    //! @brief or not - this method (NotifyToStop()) can be used for notifing thread to stop.
+    //! @brief NotifyToStop() - just set m_isRunning to false (method is thread safe). In case
+    //! IsRunning() using in ThreadMethod() to check should thread to stop or not - this method
+    //! (NotifyToStop()) can be used for notifing thread to stop.
     //! ********************************************************************************************
     virtual void NotifyToStop();
 
@@ -143,49 +137,47 @@ public: // methods
 
 protected: // methods
     //! ********************************************************************************************
-    //! @brief  Implement this method in derived class. Call Run() and ThreadMethod will work in
-    //! @brief  separated thread.
+    //! @brief Implement this method in derived class. Call Run() and ThreadMethod will work in
+    //! separated thread.
     //! @return returned data(must be on the heap) you can get from Join(**pResult).
     //! ********************************************************************************************
     virtual void* StartRoutine() = 0;
 
     //! ********************************************************************************************
-    //! @brief  The SetCancelState() sets the cancelability state of the calling thread to the
-    //! @brief  value given in state. The state argument must have one of the following values:
-    //! @brief  1) PTHREAD_CANCEL_ENABLE - the thread is cancelable.
-    //! @brief  2) PTHREAD_CANCEL_DISABLE - the thread is not cancelable. If a cancellation request
-    //! @brief  is received, it is blocked until cancelability is enabled. This is the default
-    //! @brief  cancelability state in all new threads (for ThreadBase notwithstanding pthread).
-    //! man pthread_setcancelstate.
+    //! @brief The SetCancelState() sets the cancelability state of the calling thread to the
+    //! value given in state. The state argument must have one of the following values:
+    //! 1) PTHREAD_CANCEL_ENABLE - the thread is cancelable.
+    //! 2) PTHREAD_CANCEL_DISABLE - the thread is not cancelable. If a cancellation request is
+    //! received, it is blocked until cancelability is enabled. This is the default cancelability
+    //! state in all new threads (for ThreadBase notwithstanding pthread).
+    //! man pthread_setcancelstate. Call this method in StartRoutine().
     //! @return On success, SetCancelState() returns true; on error, it returns false and
-    //!         prints errno.
+    //! prints errno.
     //! ********************************************************************************************
     virtual bool SetCancelState(int state);
 
     //! ********************************************************************************************
-    //! @brief  The SetCancelType() sets the cancelability type of the calling thread to the value
-    //! @brief  given in type. The type argument must have one of the following values:
-    //! @brief  1) PTHREAD_CANCEL_DEFERRED - A cancellation request is deferred until the thread
-    //! @brief  next calls a function that is a cancellation point (see pthreads(7)). This is the
-    //! @brief  default cancelability type in all new threads, including the initial thread.
-    //! @brief  2) PTHREAD_CANCEL_ASYNCHRONOUS - The thread can be canceled at any time.
-    //! @brief  (Typically, it will be canceled immediately upon receiving a cancellation
-    //! @brief  request, but the system doesn't guarantee this.)
-    //! man pthread_setcanceltype.
+    //! @brief The SetCancelType() sets the cancelability type of the calling thread to the value
+    //! given in type. The type argument must have one of the following values:
+    //! 1) PTHREAD_CANCEL_DEFERRED - A cancellation request is deferred until the thread next calls
+    //! a function that is a cancellation point (see pthreads(7)). This is the default cancelability
+    //! type in all new threads, including the initial thread.
+    //! 2) PTHREAD_CANCEL_ASYNCHRONOUS - The thread can be canceled at any time. (Typically, it will
+    //! be canceled immediately upon receiving a cancellation request, but the system doesn't
+    //! guarantee this.)
+    //! man pthread_setcanceltype. Call this method in StartRoutine().
     //! @return On success, SetCancelType() returns true; on error, it returns false
-    //!         and prints errno.
+    //! and prints errno.
     //! ********************************************************************************************
     virtual bool SetCancelType(int type);
 
     //! ********************************************************************************************
-    //! @brief  Call SetCancelState(PTHREAD_CANCEL_ENABLE), USleep(second/1000) then
-    //! @brief  SetCancelState(PTHREAD_CANCEL_DISABLE) inside. If a cancellation request
-    //! @brief  was sent(Cancel()) before CancelationPoint() then in point of CancelationPoint()
-    //! @brief  thread will be canceled.
-    //! @brief  ATTENTION this method use brr::USleep(brr::sc_sc_secondInUs/1000) inside.
-    //! @brief  brr::USleep() Just give OS time to handle cancel request.
-    //! @brief  If cancel request was sent then sleep value does not metter because
-    //! @brief  it will be terminated.
+    //! @brief Call SetCancelState(PTHREAD_CANCEL_ENABLE), USleep(second/1000) then
+    //! SetCancelState(PTHREAD_CANCEL_DISABLE) inside. If a cancellation request was sent(Cancel())
+    //! before CancelationPoint() then in point of CancelationPoint() thread will be canceled.
+    //! ATTENTION this method use brr::USleep(brr::sc_sc_secondInUs/1000) inside. brr::USleep() just
+    //! give OS time to handle cancel request. If cancel request was sent then sleep value does not
+    //! metter because it will be terminated. Call this method in StartRoutine().
     //! @return On success, Cancel() returns true; on error, it returns false and prints errno.
     //! ********************************************************************************************
     virtual bool CancelationPoint();
